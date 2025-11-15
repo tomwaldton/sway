@@ -1,0 +1,115 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Typography Styles */
+.header-text {
+  @apply text-sm font-bold text-gray-900;;
+}
+
+.input-text {
+  @apply text-sm font-normal text-gray-900;;
+}
+
+.description-text {
+  @apply text-xs font-normal text-gray-900;
+}
+
+/* Universal hide scrollbar in all browsers */
+.character-sheet-area::-webkit-scrollbar {
+  display: none;
+}
+
+.character-sheet-area {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+    overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.screen-hidden {
+  display: none !important;
+}
+
+
+
+/* Group of two characters per printed page */
+.character-pair {
+  page-break-after: always;
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* Avoid breaking inside a pair */
+.character-pair > * {
+  break-inside: avoid;
+}
+
+@media print {
+
+    .character-sheet-area {
+    overflow: visible !important;
+    height: auto !important;
+  }
+  
+  /* Hide interactive UI */
+  .print-only-character-sheet {
+    display: always !important;
+    visibility: hidden !important;
+    
+  }
+
+  /* Show the print clone */
+  .print-clone {
+    display: block !important;
+    visibility: visible !important;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: relative !important;
+    height: auto !important;
+  }
+
+.character-pair {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  page-break-after: always;
+  break-inside: avoid;
+}
+
+.print-clone .character-sheet-print {
+  page-break-inside: avoid;
+  margin-bottom: 0;
+}
+
+
+  .character-sheet-print {
+    width: 500px;
+    page-break-inside: avoid;
+    transform: scale(0.75);
+    transform-origin: top left;
+    margin: 1rem;
+  }
+
+  .force-page-break {
+    display: block;
+    height: 1px;
+    page-break-before: always;
+    visibility: hidden;
+  }
+
+.force-second-page {
+  display: block;
+  height: 100vh;
+  page-break-before: always;
+  background: red; /* TEMP for testing */
+}
+
+  .screen-hidden.print-clone {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+

@@ -1,0 +1,99 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Typography Styles */
+.header-text {
+  @apply text-sm font-bold text-gray-900;;
+}
+
+.input-text {
+  @apply text-sm font-normal text-gray-900;;
+}
+
+.description-text {
+  @apply text-xs font-normal text-gray-900;
+}
+
+/* Universal hide scrollbar in all browsers */
+.character-sheet-area::-webkit-scrollbar {
+  display: none;
+}
+
+.character-sheet-area {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.screen-hidden {
+  display: none !important;
+}
+
+
+
+/* Group of two characters per printed page */
+.character-pair {
+  page-break-after: always;
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* Avoid breaking inside a pair */
+.character-pair > * {
+  break-inside: avoid;
+}
+
+@media print {
+  /* Hide interactive UI */
+  .print-only-character-sheet {
+    display: always !important;
+    visibility: hidden !important;
+    
+  }
+
+  /* Show the print clone */
+  .print-clone {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    visibility: visible !important;
+    width: 100%;
+    justify-content: center;
+    gap: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .print-clone .character-sheet-print {
+    transform: scale(0.75);
+    transform-origin: top left;
+    page-break-inside: avoid;
+    margin-bottom: 0;
+  }
+
+.character-pair {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  page-break-after: always; /* This is important */
+  break-inside: avoid;
+  transform: scale(0.85);
+  transform-origin: top center;
+}
+
+  .character-sheet-print {
+    width: 500px;
+  }
+
+@media print {
+  /* Force two printed pages by inserting a hidden spacer */
+  .force-page-break {
+    display: block;
+    height: 1px;
+    page-break-before: always;
+    visibility: hidden;
+  }
+}
+
+
+}

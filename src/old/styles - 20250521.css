@@ -1,0 +1,79 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Typography Styles */
+.header-text {
+  @apply text-sm font-bold text-gray-900;;
+}
+
+.input-text {
+  @apply text-sm font-normal text-gray-900;;
+}
+
+.description-text {
+  @apply text-xs font-normal text-gray-900;
+}
+
+
+.character-sheet-print {
+  height: 913px;
+  max-height: 913px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+
+  border: 2px solid red; /* ✅ Add this for visible outline */
+}
+
+
+@media print {
+  .character-sheet-print {
+    border: 2px solid red !important; /* ✅ Visible on printed sheet */
+  }
+
+
+  .character-sheet-print {
+    height: 913px;
+    max-height: 913px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* ✅ keep layout as-is */
+    box-sizing: border-box;
+    page-break-after: always;
+  }
+
+  .print-only-character-sheet * {
+    visibility: hidden;
+  }
+
+  .character-sheet-area,
+  .character-sheet-area * {
+    visibility: visible;
+  }
+
+  .character-sheet-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .team-overview-print {
+    height: auto; /* let the team overview grow naturally */
+    page-break-after: always;
+  }
+
+  @page {
+  size: A4 landscape;
+}
+
+}
