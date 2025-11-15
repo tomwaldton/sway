@@ -1,5 +1,6 @@
 import './styles.css';
 import React, { useState, useRef, useEffect } from 'react'; 
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 
 const initialStats = {
@@ -142,7 +143,50 @@ const TeamOverview = ({ teamName, characters, teamCredits, teamNotes, calculateC
   );
 };
 
-export default function App() {
+function Landing() {
+  return (
+    <div className="landing">
+      <div className="landing-inner">
+        <img
+          src="/logoplaceholder.png"
+          alt="Sway Game"
+          className="landing-logo"
+        />
+        <h1 className="landing-title">Welcome to Sway</h1>
+        <p className="landing-subtitle">
+          Choose where you want to go:
+        </p>
+
+        <div className="landing-buttons">
+          {/* A) Webshop */}
+          <a
+            href="https://your-webshop-url-here.com"
+            className="landing-btn"
+          >
+            🛒 Webshop
+          </a>
+
+          {/* B) Character Creator (your current app) */}
+          <Link to="/creator" className="landing-btn">
+            🎲 Character Creator
+          </Link>
+
+          {/* C) Files to download */}
+          <a
+            href="/files"  // or direct link to your PDF/ZIP/etc.
+            className="landing-btn"
+          >
+            📁 Download Files
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+function CharacterCreator() {
   const characterScrollRef = useRef(null);
 const [canScrollLeft, setCanScrollLeft] = useState(false);
 const [canScrollRight, setCanScrollRight] = useState(false);
@@ -1408,3 +1452,17 @@ onChange={(e) => {
 
   })} 
    </div>    </div>)}
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Landing page at swaygame.info/ */}
+        <Route path="/" element={<Landing />} />
+
+        {/* Your existing character creator at /creator */}
+        <Route path="/creator" element={<CharacterCreator />} />
+      </Routes>
+    </Router>
+  );
+}

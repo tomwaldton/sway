@@ -107,5 +107,81 @@
   break-before: page;
 }
 
+
 }
 
+/* Fullscreen center container */
+.landing {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;      
+  justify-content: center;  
+  background: #fafafa;
+  padding: 20px;
+}
+
+/* Centered card */
+.landing-inner {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 2rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.landing-logo {
+  max-width: 200px;
+  margin: 0 auto 1rem;
+}
+
+.landing-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.landing-subtitle {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-bottom: 1.5rem;
+}
+
+.landing-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .landing-buttons {
+    flex-direction: row;
+  }
+}
+
+.landing-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid #111827;
+  background: #ff0303;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+}
+
+.landing-btn:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* Prevent global app layout from affecting the landing screen */
+.landing, .landing * {
+  box-sizing: border-box;
+}
