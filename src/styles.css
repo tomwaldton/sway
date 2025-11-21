@@ -5,15 +5,19 @@
 
 /* Global Typography Styles */
 .header-text {
-  @apply text-sm font-bold text-gray-900;;
+  @apply text-[14px] font-normal text-gray-900 font-veneertwo italic uppercase tracking-wider;
 }
 
 .input-text {
-  @apply text-sm font-normal text-gray-900;;
+  @apply text-[12px] font-normal text-gray-900 font-chainprinter;
 }
 
 .description-text {
-  @apply text-xs font-normal text-gray-900;
+  @apply text-[9px] font-normal text-gray-900 font-chainprinter not-italic ;
+}
+
+.left-input {
+  background-color: #fcf8cc !important;
 }
 
 /* Universal hide scrollbar in all browsers */
@@ -171,17 +175,26 @@
   font-weight: 700;
   text-decoration: none;
   border: 2px solid #111827;
-  background: #ff0303;
+  background: #ffee2a;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
 }
 
 .landing-btn:hover {
   background: #fecaca;
-  transform: translateY(-1px);
+  transform: translatey(-1px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
 /* Prevent global app layout from affecting the landing screen */
 .landing, .landing * {
   box-sizing: border-box;
+}
+
+/* Make all Tailwind borders solid black */
+.border,
+.border-t,
+.border-r,
+.border-b,
+.border-l {
+  border-color: #000000 !important;
 }

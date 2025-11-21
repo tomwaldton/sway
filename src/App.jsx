@@ -44,15 +44,15 @@ const skills = [
 
 
 const weapons = [
-  { id: 1, name: 'None melee', description: '[Ded]  Power -8', modifiers: { AGI: 0 } },
-  { id: 2, name: 'Light melee', description: '[Agi]  Power -2', modifiers: { AGI: 0 } },
-  { id: 3, name: 'Medium melee', description: '[Str]  Power +2', modifiers: { AGI: -2 } },
-  { id: 4, name: 'Heavy melee', description: '[Str]  Power +6', modifiers: { AGI: -4 } },
-  { id: 5, name: 'None ranged', description: '[Ded]  Power -8  Range: 6”', modifiers: { AGI: 0 } },
-  { id: 6, name: 'Short ranged', description: '[Agi]  Power -2  Range:12”', modifiers: { AGI: 0 } },
-  { id: 7, name: 'Medium ranged', description: '[Agi]  Power +2  Range:18”', modifiers: { AGI: -2 } },
-  { id: 8, name: 'Long ranged', description: '[Int]  power +4  Range:24”', modifiers: { AGI: -4 } },
-  { id: 9, name: 'Artillery', description: '[Int]  power +6  Range:30”', modifiers: { AGI: -8 } }
+  { id: 1, name: 'None melee', description: '[Ded] Power -8', modifiers: { AGI: 0 } },
+  { id: 2, name: 'Light melee', description: '[Agi] Power -2', modifiers: { AGI: 0 } },
+  { id: 3, name: 'Medium melee', description: '[Str] Power +2', modifiers: { AGI: -2 } },
+  { id: 4, name: 'Heavy melee', description: '[Str] Power +6', modifiers: { AGI: -4 } },
+  { id: 5, name: 'None ranged', description: '[Ded] Power -8 6”', modifiers: { AGI: 0 } },
+  { id: 6, name: 'Short ranged', description: '[Agi] Power -2 12”', modifiers: { AGI: 0 } },
+  { id: 7, name: 'Medium ranged', description: '[Int] Power +2 18”', modifiers: { AGI: -2 } },
+  { id: 8, name: 'Long ranged', description: '[Int] power +4 24”', modifiers: { AGI: -4 } },
+  { id: 9, name: 'Artillery', description: '[Int] power +6 30”', modifiers: { AGI: -8 } }
 ];
 
 const upgradeOptions = ['None', 'Fire', 'Lightning', 'Poison'];
@@ -144,11 +144,16 @@ const TeamOverview = ({ teamName, characters, teamCredits, teamNotes, calculateC
 };
 
 function Landing() {
+
+    useEffect(() => {
+    document.title = "SWAY - Main";
+  }, []);
+
   return (
     <div className="landing">
       <div className="landing-inner">
         <img
-          src="/logoplaceholder.png"
+          src="/sway_logo_only_rgb.png"
           alt="Sway Game"
           className="landing-logo"
         />
@@ -163,12 +168,12 @@ function Landing() {
             href="https://your-webshop-url-here.com"
             className="landing-btn"
           >
-            🛒 Webshop
+            Webshop
           </a>
 
           {/* B) Character Creator (your current app) */}
           <Link to="/creator" className="landing-btn">
-            🎲 Character Creator
+            Character Creator
           </Link>
 
           {/* C) Files to download */}
@@ -176,7 +181,7 @@ function Landing() {
             href="/files"  // or direct link to your PDF/ZIP/etc.
             className="landing-btn"
           >
-            📁 Download Files
+             Download Files
           </a>
         </div>
       </div>
@@ -190,6 +195,10 @@ function CharacterCreator() {
   const characterScrollRef = useRef(null);
 const [canScrollLeft, setCanScrollLeft] = useState(false);
 const [canScrollRight, setCanScrollRight] = useState(false);
+
+  useEffect(() => {
+    document.title = "SWAY - Character Creator";
+  }, []);
 
 // Detect scroll availability
 useEffect(() => {
@@ -239,12 +248,11 @@ const calculateCostForCharacter = (char) => {
   const armourLabel = selectedArmour?.label;
   if (gearCosts[armourLabel]) total += gearCosts[armourLabel];
 
-  const weaponLeftName = weapons.find(w => w.id.toString() === char.weaponLeft)?.name || '';
-  const weaponRightName = weapons.find(w => w.id.toString() === char.weaponRight)?.name || '';
-  Object.entries(gearCosts).forEach(([label, cost]) => {
-    if (weaponLeftName.includes(label)) total += cost;
-    if (weaponRightName.includes(label)) total += cost;
-  });
+const weaponLeftName = weapons.find(w => w.id.toString() === char.weaponLeft)?.name || '';
+const weaponRightName = weapons.find(w => w.id.toString() === char.weaponRight)?.name || '';
+
+if (gearCosts[weaponLeftName]) total += gearCosts[weaponLeftName];
+if (gearCosts[weaponRightName]) total += gearCosts[weaponRightName];
 
   if (gearCosts[char.upgradeLeft]) total += gearCosts[char.upgradeLeft];
   if (gearCosts[char.upgradeRight]) total += gearCosts[char.upgradeRight];
@@ -393,56 +401,63 @@ return (
 
     {/* Left Column – Team Overview */}
     
-    <div className="left-column w-[500px] p-4 border-r">
+    <div className="left-column w-[350px] p-4 border-r bg-[#ffee2a]">
+<div className="mt-auto flex gap-1 mb-2">
+  <Link to="/" className="w-1/2">
+    <img
+      src="/sway_logo_only_rgb_cutout_2k.png"
+      alt="Team Logo Left"
+      className="w-full max-h-[140px] object-contain cursor-pointer"
+    />
+  </Link>
 
 
-<div className="mt-auto ">
-  <img
-    src="/logoplaceholder.png"
-    alt="Team Logo"
-    className="w-full h-auto object-contain"
-  />
+<img src="/swaycover 11_cmyk characters seperated color.png" alt="Team Logo Right" className="w-1/2 max-h-[180px] object-contain" />
+
 </div>
 
 
 
 
-
-
-      <div className="text-center font-bold mb-2">Team Overview</div>
-
       <input
-        className="w-full p-2 border rounded mb-2"
+        className="w-full p-2 border rounded mb-2 header-text text-center !text-[30px] left-input"
         value={teamName}
         onChange={(e) => setTeamName(e.target.value)}
         placeholder="Team Name"
       />
 
       {characters.map((char, i) => (
-        <div key={i} className="flex justify-between items-center text-sm mb-1">
+        <div key={i} className="flex justify-between items-center input-text mb-1 !text-[22px]">
           <span>{char.name || `Character ${i + 1}`}</span>
           <span>{calculateCostForCharacter(char)}</span>
         </div>
       ))}
+<hr className="my-2 border-t border-black" />
 
-<div className="mt-2 flex justify-end items-center gap-2 text-sm">
-  <span className="font-bold">Credits</span>
-  <input
-    className="p-1 border rounded w-20 text-right"
-    type="number"
-    value={teamCredits}
-    onChange={(e) => setTeamCredits(Number(e.target.value))}
-  />
-  <span className="font-bold">Unspent</span>
-  <span className="px-2 py-1 border rounded bg-white text-right w-16">
-    {teamCredits - totalTeamCost()}
-  </span>
+<div className="mt-2 flex justify-between items-center ">
+  {/* LEFT SIDE */}
+  <div className="flex items-center gap-2">
+    <span className="header-text">Team Credits</span>
+    <input
+      className="p-1 border rounded w-20 text-center input-text !text-[18px] left-input"
+      type="number"
+      value={teamCredits}
+      onChange={(e) => setTeamCredits(Number(e.target.value))}
+    />
+  </div>
+
+  {/* RIGHT SIDE */}
+  <div className="flex items-center gap-2">
+    <span className="header-text">Credits unspent</span>
+    <span className=" text-right w-12 input-text !text-[18px] bg-[#ffee2a]" >
+      {teamCredits - totalTeamCost()}
+    </span>
+  </div>
 </div>
 
 
-
       <textarea
-        className="w-full h-[310px] mt-2 p-2 border rounded"
+        className="w-full h-[280px] mt-2 p-2 border rounded input-text left-input"
         rows="4"
         placeholder="Notes..."
         value={teamNotes}
@@ -450,14 +465,14 @@ return (
       />
 
       <button
-  className="mt-4 w-full bg-red-300 header-text py-3 rounded shadow"
+  className="mt-4 w-full bg-[#442655] !text-[#fcf8cc] header-text py-3 rounded shadow"
   onClick={() => window.print()}
 >
   Print Team
 </button>
 
 <button
-  className="mt-2 w-full bg-yellow-300 header-text py-3 rounded shadow"
+  className="mt-2 w-full bg-[#e87a2f]  header-text py-3 rounded shadow"
   onClick={() => {
     const data = {
       teamName,
@@ -478,7 +493,7 @@ return (
 </button>
 
 
-<label className="mt-2 w-full bg-orange-300 header-text py-3 rounded shadow text-center cursor-pointer block">
+<label className="mt-2 w-full bg-[#e8432b] !text-[#fcf8cc] header-text py-3 rounded shadow text-center cursor-pointer block">
   Load Team
   <input
     type="file"
@@ -568,11 +583,11 @@ return (
     </div>
   </div>
 )}
-      <div className="flex gap-4 items-end">
+      <div className="flex gap-2 items-end">
         <label className="flex-1 header-text">
           Name:
           <input
-            className="block w-full border p-2 rounded mt-1 input-text"
+            className="block w-full border p-1 rounded mt-0 input-text !text-[22px]"
             value={char.name}
 onChange={(e) =>
   setCharacters(prev => {
@@ -584,9 +599,9 @@ onChange={(e) =>
 
           />
         </label>
-        <div className="flex-none">
-          <div className="header-text">Move</div>
-          <div className="p-2 border rounded text-center input-text">
+        <div className="w-[88px]">
+          <div className="header-text">Move:</div>
+          <div className="p-1 border rounded text-center header-text !text-[22px]">
             {calculateMoveForCharacter(char)}
           </div>
         </div>
@@ -738,7 +753,7 @@ onChange={(e) => {
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
-            <div className="text-sm text-center mt-1 font-bold">
+            <div className="header-text text-center border p-2 rounded mt-1 !text-[22px]">
 {(armourOptions.find(a => a.value === char.armourType)?.armour || 0)}
 {getModifiersForCharacter(char).ARMOUR !== 0 && (
   <span className={getModifiersForCharacter(char).ARMOUR > 0 ? 'text-green-600' : 'text-red-600'}>
@@ -830,7 +845,7 @@ setCharacters(prev => {
     <div key={index} className="flex gap-2 mb-2 items-start">
       <div className="flex flex-col w-[140px]">
         <select
-          className="border p-2 rounded input-text"
+          className="border p-2 rounded input-text !text-[10px]"
           value={item}
           onChange={(e) => {
             setCharacters(prev => {
@@ -846,7 +861,7 @@ setCharacters(prev => {
         </select>
 
         <div className="mt-1 flex items-center justify-end w-full">
-          <span className="text-xs mr-1">Used</span>
+          <span className="header-text mr-1">Used</span>
 <input
   type="checkbox"
   checked={char.usedItems[itemIdx]}
@@ -877,7 +892,7 @@ setCharacters(prev => {
 <div className="flex-[1_1_27%]">
   <h3 className="block header-text mb-1">Accessory</h3>
   <select
-    className="w-full border p-2 rounded input-text"
+    className="w-full border p-2 rounded input-text !text-[10px]"
     value={char.accessory}
     onChange={(e) => {
 setCharacters(prev => {
@@ -1039,11 +1054,11 @@ return (
   </div>
 )}
 
-      <div className="flex gap-4 items-end">
+      <div className="flex gap-2 items-end">
         <label className="flex-1 header-text">
           Name:
           <input
-            className="block w-full border p-2 rounded mt-1 input-text"
+            className="block w-full border p-1 rounded mt-0 input-text !text-[22px]"
             value={char.name}
 onChange={(e) =>
   setCharacters(prev => {
@@ -1055,9 +1070,9 @@ onChange={(e) =>
 
           />
         </label>
-        <div className="flex-none">
-          <div className="header-text">Move</div>
-          <div className="p-2 border rounded text-center input-text">
+        <div className="w-[88px]">
+          <div className="header-text">Move:</div>
+          <div className="p-1 border rounded text-center header-text !text-[22px]">
             {calculateMoveForCharacter(char)}
           </div>
         </div>
@@ -1209,7 +1224,7 @@ onChange={(e) => {
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
-            <div className="text-sm text-center mt-1 font-bold">
+            <div className="header-text text-center border p-2 rounded mt-1 !text-[22px]">
 {(armourOptions.find(a => a.value === char.armourType)?.armour || 0)}
 {getModifiersForCharacter(char).ARMOUR !== 0 && (
   <span className={getModifiersForCharacter(char).ARMOUR > 0 ? 'text-green-600' : 'text-red-600'}>
@@ -1301,7 +1316,7 @@ setCharacters(prev => {
     <div key={index} className="flex gap-2 mb-2 items-start">
       <div className="flex flex-col w-[140px]">
         <select
-          className="border p-2 rounded input-text"
+          className="border p-2 rounded input-text !text-[10px]"
           value={item}
           onChange={(e) => {
             setCharacters(prev => {
@@ -1334,7 +1349,7 @@ setCharacters(prev => {
         </div>
       </div>
 
-      <div className="flex-1 description-text p-2 border rounded" style={{ height: '70px' }}>
+      <div className="flex-1 description-text p-2 border rounded " style={{ height: '70px' }}>
         {selectedItem?.description || ''}
       </div>
     </div>
@@ -1348,7 +1363,7 @@ setCharacters(prev => {
 <div className="flex-[1_1_27%]">
   <h3 className="block header-text mb-1">Accessory</h3>
   <select
-    className="w-full border p-2 rounded input-text"
+    className="w-full border p-2 rounded input-text !text-[10px]"
     value={char.accessory}
     onChange={(e) => {
 setCharacters(prev => {
