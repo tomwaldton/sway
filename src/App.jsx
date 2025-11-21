@@ -153,7 +153,7 @@ function Landing() {
     <div className="landing">
       <div className="landing-inner">
         <img
-          src="/sway_logo_only_rgb.png"
+          src="/sway_logo_only_rgb_cutout_2k.png"
           alt="Sway Game"
           className="landing-logo"
         />
