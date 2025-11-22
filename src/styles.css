@@ -17,7 +17,7 @@
 }
 
 .left-input {
-  background-color: #fcf8cc !important;
+  background-color: #fcf8cc  !important;
 }
 
 /* Universal hide scrollbar in all browsers */
@@ -114,81 +114,6 @@
 
 }
 
-/* Fullscreen center container */
-.landing {
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;      
-  justify-content: center;  
-  background: #fafafa;
-  padding: 20px;
-}
-
-/* Centered card */
-.landing-inner {
-  width: 100%;
-  max-width: 600px;
-  background: white;
-  padding: 2rem;
-  border-radius: 1.25rem;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  text-align: center;
-}
-
-.landing-logo {
-  max-width: 200px;
-  margin: 0 auto 1rem;
-}
-
-.landing-title {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-}
-
-.landing-subtitle {
-  font-size: 0.95rem;
-  color: #4b5563;
-  margin-bottom: 1.5rem;
-}
-
-.landing-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-@media (min-width: 640px) {
-  .landing-buttons {
-    flex-direction: row;
-  }
-}
-
-.landing-btn {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 1.25rem;
-  border-radius: 9999px;
-  font-weight: 700;
-  text-decoration: none;
-  border: 2px solid #111827;
-  background: #ffee2a;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
-}
-
-.landing-btn:hover {
-  background: #fecaca;
-  transform: translatey(-1px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-}
-
-/* Prevent global app layout from affecting the landing screen */
-.landing, .landing * {
-  box-sizing: border-box;
-}
 
 /* Make all Tailwind borders solid black */
 .border,
@@ -198,3 +123,178 @@
 .border-l {
   border-color: #000000 !important;
 }
+
+/* ========= LANDING PAGE ========= */
+
+.landing-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #f0e0c6; /* fallback behind the bg image */
+  color: #1f1f1f;
+  overflow: hidden;
+}
+
+/* Logo top-left */
+.landing-header {
+  position: absolute;
+  top: 1.5rem;
+  left: 2rem;
+  z-index: 5;
+}
+
+.landing-header-logo {
+  width: 180px;
+  max-width: 40vw;
+}
+
+/* HERO AREA */
+.landing-hero {
+  position: relative;
+  flex: 1;
+  min-height: 60vh;           /* ✅ keeps hero tall enough so the book isn’t chopped */
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+
+/* Background with book image */
+.landing-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://files.swaygame.info/landing/landing-book-bg.png");
+  background-size: cover;
+  background-position: center 15%;   /* ✅ fine-tuned */
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+
+
+/* Overlay row for left/right text images */
+.landing-hero-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 2rem 3rem; /* top padding leaves space for logo */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Side containers */
+.landing-hero-side {
+  flex: 0 1 32%;
+  display: flex;
+  justify-content: center;
+}
+
+.landing-hero-text-img {
+  width: 100%;
+  height: auto;
+  max-width: 360px;
+  display: block;
+}
+
+/* BOTTOM YELLOW BAR */
+.landing-nav {
+  background: #ffeb00;
+  padding: 1.5rem 2rem 2rem;
+  display: grid;                                /* ✅ grid instead of flex */
+  grid-template-columns: repeat(4, 1fr);        /* ✅ 4 even columns on desktop */
+  gap: 2rem;
+  z-index: 3;
+}
+
+.landing-nav-item {
+  display: flex;
+  align-items: flex-start;   /* ✅ top-align */
+  justify-content: center;
+  text-decoration: none;
+}
+
+.landing-nav-img {
+  width: auto;               /* keep exact PNG width */
+  max-height: 110px;         /* optional: unify scale */
+  margin-top: 10px;          /* tweak baseline */
+}
+
+
+
+.landing-nav-item:hover {
+  transform: translateY(-3px) rotate(-1deg);
+  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* ========= RESPONSIVE ========= */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .landing-header {
+    left: 1rem;
+  }
+
+  .landing-header-logo {
+    width: 150px;
+  }
+
+  .landing-hero-overlay {
+    padding: 6rem 1.25rem 2.5rem;
+    gap: 1.5rem;
+  }
+
+  .landing-hero-text-img {
+    max-width: 320px;
+  }
+
+  .landing-nav {
+    grid-template-columns: repeat(2, 1fr);      /* 2 × 2 on tablets */
+  }
+
+  }
+
+  .landing-nav-item {
+    font-size: 1.8rem;
+  }
+
+/* Phones */
+@media (max-width: 640px) {
+  .landing-hero-overlay {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 5.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .landing-hero-side {
+    flex-basis: auto;
+  }
+
+  .landing-hero-text-img {
+    max-width: 80%;
+  }
+
+  .landing-nav {
+    flex-wrap: wrap;
+  }
+
+  .landing-nav {
+    grid-template-columns: repeat(2, 1fr);      /* still 2 × 2 on phones */
+    gap: 1.25rem;
+    padding: 1.25rem 1.25rem 1.75rem;
+  }
+
+}
+
+/* Keep layout sane just on this page */
+.landing-page,
+.landing-page * {
+  box-sizing: border-box;
+}
+

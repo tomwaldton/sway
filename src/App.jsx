@@ -144,50 +144,62 @@ const TeamOverview = ({ teamName, characters, teamCredits, teamNotes, calculateC
 };
 
 function Landing() {
-
-    useEffect(() => {
+  useEffect(() => {
     document.title = "SWAY - Main";
   }, []);
 
   return (
-    <div className="landing">
-      <div className="landing-inner">
-        <img
-          src="/sway_logo_only_rgb_cutout_2k.png"
-          alt="Sway Game"
-          className="landing-logo"
-        />
-        <h1 className="landing-title">Welcome to Sway</h1>
-        <p className="landing-subtitle">
-          Choose where you want to go:
-        </p>
+    <div className="landing-page">
 
-        <div className="landing-buttons">
-          {/* A) Webshop */}
-          <a
-            href="https://your-webshop-url-here.com"
-            className="landing-btn"
-          >
-            Webshop
-          </a>
+      {/* HERO: background image with book + overlay text PNGs */}
+      <section className="landing-hero">
+        <div className="landing-hero-bg" />
 
-          {/* B) Character Creator (your current app) */}
-          <Link to="/creator" className="landing-btn">
-            Character Creator
-          </Link>
+        <div className="landing-hero-overlay">
+          {/* Left text PNG */}
+          <div className="landing-hero-side landing-hero-side-left">
+            <img
+              src="/landing-text-left.png"
+              alt="What SWAY is - left text"
+              className="landing-hero-text-img"
+            />
+          </div>
 
-          {/* C) Files to download */}
-          <a
-            href="/files"  // or direct link to your PDF/ZIP/etc.
-            className="landing-btn"
-          >
-             Download Files
-          </a>
+          {/* Right text PNG */}
+          <div className="landing-hero-side landing-hero-side-right">
+            <img
+              src="/landing-text-right.png"
+              alt="What SWAY is - right text"
+              className="landing-hero-text-img"
+            />
+          </div>
         </div>
-      </div>
+      </section>
+
+{/* Bottom yellow bar with 4 categories (PNG only) */}
+<nav className="landing-nav">
+  <a href="https://your-shop-link.com" className="landing-nav-item">
+    <img src="/nav-shop.png" alt="Shop" className="landing-nav-img" />
+  </a>
+
+  <a href="https://your-community-link.com" className="landing-nav-item">
+    <img src="/nav-community.png" alt="Community" className="landing-nav-img" />
+  </a>
+
+  <Link to="/creator" className="landing-nav-item">
+    <img src="/nav-creator.png" alt="Character Creator" className="landing-nav-img" />
+  </Link>
+
+  <a href="/files" className="landing-nav-item">
+    <img src="/nav-files.png" alt="Free Files" className="landing-nav-img" />
+  </a>
+</nav>
+
     </div>
   );
 }
+
+
 
 
 
