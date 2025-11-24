@@ -3,6 +3,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Disable manual resizing for all textareas */
+textarea {
+  resize: none;
+}
+
 /* Global Typography Styles */
 .header-text {
   @apply text-[14px] font-normal text-gray-900 font-veneertwo italic uppercase tracking-wider;
@@ -19,6 +24,27 @@
 .left-input {
   background-color: #fcf8cc  !important;
 }
+
+.team-name-input::placeholder {
+  color: #ffc7a1;
+  opacity: 1;
+}
+
+.team-name-input {
+  text-shadow: -5px 5px 0 #e65a23;
+}
+
+/* Remove spin buttons ONLY for the Team Credits input */
+.team-credits-input::-webkit-inner-spin-button,
+.team-credits-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.team-credits-input {
+  -moz-appearance: textfield; /* Firefox */
+}
+
 
 /* Universal hide scrollbar in all browsers */
 .character-sheet-area::-webkit-scrollbar {
@@ -164,7 +190,7 @@
 .landing-hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url("https://files.swaygame.info/landing/landing-book-bg.png");
+  background-image: url("https://files.swaygame.info/landing/landing-book-bg-3.png");
   background-size: cover;
   background-position: center 15%;   /* ✅ fine-tuned */
   background-repeat: no-repeat;
@@ -219,17 +245,16 @@
 }
 
 .landing-nav-img {
-  width: auto;               /* keep exact PNG width */
-  max-height: 110px;         /* optional: unify scale */
-  margin-top: 10px;          /* tweak baseline */
+  transition: filter 0.15s ease;
+}
+
+/* Hover: instantly recolor to #e65a23 */
+.landing-nav-item:hover .landing-nav-img {
+  filter: saturate(100) hue-rotate(126deg) saturate(100);
 }
 
 
 
-.landing-nav-item:hover {
-  transform: translateY(-3px) rotate(-1deg);
-  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
-}
 
 /* ========= RESPONSIVE ========= */
 

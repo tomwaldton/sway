@@ -432,7 +432,7 @@ return (
 
 
       <input
-        className="w-full p-2 border rounded mb-2 header-text text-center !text-[30px] left-input"
+        className="w-full p-2 rounded mb-2 header-text text-center !text-[30px] bg-[#e87a2f] team-name-input !text-[#fcf8cc]"
         value={teamName}
         onChange={(e) => setTeamName(e.target.value)}
         placeholder="Team Name"
@@ -448,20 +448,21 @@ return (
 
 <div className="mt-2 flex justify-between items-center ">
   {/* LEFT SIDE */}
-  <div className="flex items-center gap-2">
-    <span className="header-text">Team Credits</span>
-    <input
-      className="p-1 border rounded w-20 text-center input-text !text-[18px] left-input"
-      type="number"
-      value={teamCredits}
-      onChange={(e) => setTeamCredits(Number(e.target.value))}
-    />
+  <div className="flex items-center gap-1">
+    <span className="header-text">Team Credits:</span>
+<input
+  className="rounded w-20 text-center input-text !text-[22px] bg-[#ffee2a] border team-credits-input"
+  type="number"
+  value={teamCredits}
+  onChange={(e) => setTeamCredits(Number(e.target.value))}
+/>
+
   </div>
 
   {/* RIGHT SIDE */}
-  <div className="flex items-center gap-2">
-    <span className="header-text">Credits unspent</span>
-    <span className=" text-right w-12 input-text !text-[18px] bg-[#ffee2a]" >
+  <div className="flex items-center">
+    <span className="header-text">unspent :</span>
+    <span className=" text-right input-text !text-[22px] bg-[#ffee2a]" >
       {teamCredits - totalTeamCost()}
     </span>
   </div>
@@ -469,7 +470,7 @@ return (
 
 
       <textarea
-        className="w-full h-[280px] mt-2 p-2 border rounded input-text left-input"
+        className="w-full h-[305px] mt-2 p-2 rounded input-text left-input"
         rows="4"
         placeholder="Notes..."
         value={teamNotes}
@@ -477,14 +478,14 @@ return (
       />
 
       <button
-  className="mt-4 w-full bg-[#442655] !text-[#fcf8cc] header-text py-3 rounded shadow"
+  className="mt-2 w-full bg-[#442655] !text-[#ffee2a] header-text !text-[22px] py-1 rounded shadow"
   onClick={() => window.print()}
 >
   Print Team
 </button>
 
 <button
-  className="mt-2 w-full bg-[#e87a2f]  header-text py-3 rounded shadow"
+  className="mt-2 w-full bg-[#e87a2f] !text-[#ffee2a] header-text !text-[22px] py-1 rounded shadow"
   onClick={() => {
     const data = {
       teamName,
@@ -505,7 +506,7 @@ return (
 </button>
 
 
-<label className="mt-2 w-full bg-[#e8432b] !text-[#fcf8cc] header-text py-3 rounded shadow text-center cursor-pointer block">
+<label className="mt-2 w-full bg-[#e8432b] !text-[#ffee2a] header-text !text-[22px] py-1 rounded shadow text-center cursor-pointer block">
   Load Team
   <input
     type="file"
