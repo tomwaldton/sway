@@ -148,56 +148,106 @@ function Landing() {
     document.title = "SWAY - Main";
   }, []);
 
+  const [activeSection, setActiveSection] = useState("home");
+
+  const heroStyles = {
+    home: {
+      backgroundImage: 'url("/landing-book-bg-3.png")',
+    },
+    shop: {
+      backgroundColor: "#ffee2a",
+      backgroundImage: "none",
+    },
+    community: {
+      backgroundColor: "#ffee2a",
+      backgroundImage: "none",
+    },
+    files: {
+      backgroundColor: "#ffee2a",
+      backgroundImage: "none",
+    },
+  };
+
   return (
     <div className="landing-page">
+      {/* Small home icon in top-left */}
+      <button
+        type="button"
+        className="landing-home-btn"
+        onClick={() => setActiveSection("home")}
+        aria-label="Back to home"
+      >
+        <span className="landing-home-icon">⌂</span>
+      </button>
 
       {/* HERO: background image with book + overlay text PNGs */}
       <section className="landing-hero">
-        <div className="landing-hero-bg" />
+        <div
+          className="landing-hero-bg"
+          style={heroStyles[activeSection]}
+        />
 
-        <div className="landing-hero-overlay">
-          {/* Left text PNG */}
-          <div className="landing-hero-side landing-hero-side-left">
-            <img
-              src="/landing-text-left.png"
-              alt="What SWAY is - left text"
-              className="landing-hero-text-img"
-            />
-          </div>
+        {activeSection === "home" && (
+          <div className="landing-hero-overlay">
+            <div className="landing-hero-side landing-hero-side-left">
+              <img
+                src="/landing-text-left.png"
+                alt="What SWAY is - left text"
+                className="landing-hero-text-img"
+              />
+            </div>
 
-          {/* Right text PNG */}
-          <div className="landing-hero-side landing-hero-side-right">
-            <img
-              src="/landing-text-right.png"
-              alt="What SWAY is - right text"
-              className="landing-hero-text-img"
-            />
+            <div className="landing-hero-side landing-hero-side-right">
+              <img
+                src="/landing-text-right.png"
+                alt="What SWAY is - right text"
+                className="landing-hero-text-img"
+              />
+            </div>
           </div>
-        </div>
+        )}
+
+        {activeSection === "shop" && (
+          <div className="landing-hero-overlay">
+            {/* future SHOP content if you want */}
+          </div>
+        )}
       </section>
 
-{/* Bottom yellow bar with 4 categories (PNG only) */}
-<nav className="landing-nav">
-  <a href="https://your-shop-link.com" className="landing-nav-item">
-    <img src="/nav-shop.png" alt="Shop" className="landing-nav-img" />
-  </a>
+      {/* Bottom yellow bar with 4 categories (PNG only) */}
+      <nav className="landing-nav">
+        <button
+          type="button"
+          className="landing-nav-item"
+          onClick={() => setActiveSection("shop")}
+        >
+          <img src="/nav-shop.png" alt="Shop" className="landing-nav-img" />
+        </button>
 
-  <a href="https://your-community-link.com" className="landing-nav-item">
-    <img src="/nav-community.png" alt="Community" className="landing-nav-img" />
-  </a>
+        <button
+          type="button"
+          className="landing-nav-item"
+          onClick={() => setActiveSection("community")}
+        >
+          <img src="/nav-community.png" alt="Community" className="landing-nav-img" />
+        </button>
 
-  <Link to="/creator" className="landing-nav-item">
-    <img src="/nav-creator.png" alt="Character Creator" className="landing-nav-img" />
-  </Link>
+        <Link to="/creator" className="landing-nav-item">
+          <img src="/nav-creator.png" alt="Character Creator" className="landing-nav-img" />
+        </Link>
 
-  <a href="/files" className="landing-nav-item">
-    <img src="/nav-files.png" alt="Free Files" className="landing-nav-img" />
-  </a>
-</nav>
-
+        <button
+          type="button"
+          className="landing-nav-item"
+          onClick={() => setActiveSection("files")}
+        >
+          <img src="/nav-files.png" alt="Free Files" className="landing-nav-img" />
+        </button>
+      </nav>
     </div>
   );
 }
+
 
 
 

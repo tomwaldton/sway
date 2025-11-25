@@ -1,0 +1,325 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Disable manual resizing for all textareas */
+textarea {
+  resize: none;
+}
+
+/* Global Typography Styles */
+.header-text {
+  @apply text-[14px] font-normal text-gray-900 font-veneertwo italic uppercase tracking-wider;
+}
+
+.input-text {
+  @apply text-[12px] font-normal text-gray-900 font-chainprinter;
+}
+
+.description-text {
+  @apply text-[9px] font-normal text-gray-900 font-chainprinter not-italic ;
+}
+
+.left-input {
+  background-color: #fcf8cc  !important;
+}
+
+.team-name-input::placeholder {
+  color: #ffc7a1;
+  opacity: 1;
+}
+
+.team-name-input {
+  text-shadow: -5px 5px 0 #e65a23;
+}
+
+/* Remove spin buttons ONLY for the Team Credits input */
+.team-credits-input::-webkit-inner-spin-button,
+.team-credits-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.team-credits-input {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+
+/* Universal hide scrollbar in all browsers */
+.character-sheet-area::-webkit-scrollbar {
+  display: none;
+}
+
+.character-sheet-area {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+    overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.screen-hidden {
+  display: none !important;
+}
+
+/* Group of two characters per printed page */
+.character-pair {
+  justify-content: left;
+  gap: 2rem;
+}
+
+@media print {
+
+.force-page-break {
+  display: block;
+  width: 100%;
+  height: 1px;
+  page-break-before: always;
+  break-before: page;
+  visibility: hidden;
+}
+    .character-sheet-area, 
+      .left-column {
+          display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+  }
+  
+  /* Hide interactive UI */
+  .print-only-character-sheet {
+    display: always !important;
+    visibility: hidden !important;
+    
+  }
+
+  .left-column {
+        display: none !important;
+    visibility: hidden !important;
+        height: 0 !important;
+    width: 0 !important;
+  }
+
+
+  /* Show the print clone */
+.print-clone {
+  display: block !important;
+  visibility: visible !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+.print-page {
+  page-break-after: always;
+  break-after: page;
+}
+
+.character-pair {
+  display: block !important; /* ✅ force block layout */
+  border: 1px solid blue;
+}
+
+.character-sheet-print {
+  zoom: 0.8;
+  box-sizing: border-box;
+  page-break-inside: avoid;
+  margin-bottom: 1rem;
+    border: 2px dashed red;
+}
+
+.force-page-break {
+  display: block;
+  height: 1px;
+  width: 100%;
+  visibility: hidden;
+  page-break-before: always;
+  break-before: page;
+}
+
+
+}
+
+
+/* Make all Tailwind borders solid black */
+.border,
+.border-t,
+.border-r,
+.border-b,
+.border-l {
+  border-color: #000000 !important;
+}
+
+/* ========= LANDING PAGE ========= */
+
+.landing-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #f0e0c6; /* fallback behind the bg image */
+  color: #1f1f1f;
+  overflow: hidden;
+}
+
+/* Logo top-left */
+.landing-header {
+  position: absolute;
+  top: 1.5rem;
+  left: 2rem;
+  z-index: 5;
+}
+
+.landing-header-logo {
+  width: 180px;
+  max-width: 40vw;
+}
+
+/* HERO AREA */
+.landing-hero {
+  position: relative;
+  flex: 1;
+  min-height: 60vh;           /* ✅ keeps hero tall enough so the book isn’t chopped */
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+
+/* Background with book image */
+.landing-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://files.swaygame.info/landing/landing-book-bg-3.png");
+  background-size: cover;
+  background-position: center 15%;   /* ✅ fine-tuned */
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+
+
+/* Overlay row for left/right text images */
+.landing-hero-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 2rem 3rem; /* top padding leaves space for logo */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* Side containers */
+.landing-hero-side {
+  flex: 0 1 32%;
+  display: flex;
+  justify-content: center;
+}
+
+.landing-hero-text-img {
+  width: 100%;
+  height: auto;
+  max-width: 360px;
+  display: block;
+}
+
+/* BOTTOM YELLOW BAR */
+.landing-nav {
+  background: #ffeb00;
+  padding: 1.5rem 2rem 2rem;
+  display: grid;                                /* ✅ grid instead of flex */
+  grid-template-columns: repeat(4, 1fr);        /* ✅ 4 even columns on desktop */
+  gap: 2rem;
+  z-index: 3;
+}
+
+.landing-nav-item {
+  display: flex;
+  align-items: flex-start;   /* ✅ top-align */
+  justify-content: center;
+  text-decoration: none;
+}
+
+.landing-nav-img {
+  transition: filter 0.15s ease;
+}
+
+/* Hover: instantly recolor to #e65a23 */
+.landing-nav-item:hover .landing-nav-img {
+  filter: saturate(100) hue-rotate(126deg) saturate(100);
+}
+
+
+
+
+/* ========= RESPONSIVE ========= */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .landing-header {
+    left: 1rem;
+  }
+
+  .landing-header-logo {
+    width: 150px;
+  }
+
+  .landing-hero-overlay {
+    padding: 6rem 1.25rem 2.5rem;
+    gap: 1.5rem;
+  }
+
+  .landing-hero-text-img {
+    max-width: 320px;
+  }
+
+  .landing-nav {
+    grid-template-columns: repeat(2, 1fr);      /* 2 × 2 on tablets */
+  }
+
+  }
+
+  .landing-nav-item {
+    font-size: 1.8rem;
+  }
+
+/* Phones */
+@media (max-width: 640px) {
+  .landing-hero-overlay {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 5.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .landing-hero-side {
+    flex-basis: auto;
+  }
+
+  .landing-hero-text-img {
+    max-width: 80%;
+  }
+
+  .landing-nav {
+    flex-wrap: wrap;
+  }
+
+  .landing-nav {
+    grid-template-columns: repeat(2, 1fr);      /* still 2 × 2 on phones */
+    gap: 1.25rem;
+    padding: 1.25rem 1.25rem 1.75rem;
+  }
+
+}
+
+/* Keep layout sane just on this page */
+.landing-page,
+.landing-page * {
+  box-sizing: border-box;
+}
+
