@@ -144,11 +144,64 @@ const TeamOverview = ({ teamName, characters, teamCredits, teamNotes, calculateC
 };
 
 function Landing() {
+  // 🔹 STATE MUST COME BEFORE ANY HOOKS THAT USE IT
+  const [activeSection, setActiveSection] = useState("home");
+
+  // Set page title
   useEffect(() => {
     document.title = "SWAY - Main";
   }, []);
 
-  const [activeSection, setActiveSection] = useState("home");
+    // 🔽 Add this helper:
+  const handleNavClick = (section) => {
+    setActiveSection(section);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Load Publit button when SHOP is active
+  useEffect(() => {
+    if (activeSection !== "shop") return;
+
+    // Remove previous instance if it exists
+    const old = document.getElementById("publit-webshop-script");
+    if (old) old.remove();
+
+    // Clear container to avoid duplicates
+    const container = document.getElementById("publit-shop-container");
+    if (!container) return;
+    container.innerHTML = "";
+
+    // Create new script tag
+    const script = document.createElement("script");
+    script.id = "publit-webshop-script";
+    script.async = true;
+    script.loading = "lazy";
+    script.src = "https://webshop.publit.com/publit-webshop-1.0.js";
+
+    // Provide config JSON as text inside the script tag
+script.text = `
+{
+  "id": "5906",
+  "type": "button",
+  "isbn": "9789153161059",
+  "theme": {
+    "backgroundColor": "#ffee2a",
+    "buyButton": {
+      "backgroundColor": "#e65a23",
+      "textColor": "#ffffff"
+    }
+  },
+  "details": [
+      "title",
+    "cover",
+    "metadata",
+    "isbn"
+  ]
+}
+`;
+
+    container.appendChild(script);
+  }, [activeSection]);
 
   const heroStyles = {
     home: {
@@ -177,16 +230,18 @@ function Landing() {
         onClick={() => setActiveSection("home")}
         aria-label="Back to home"
       >
-        <span className="landing-home-icon">⌂</span>
+        <img
+          src="/home-icon2.png"      // make sure this file is in /public
+          alt="Home"
+          className="landing-home-icon"
+        />
       </button>
 
-      {/* HERO: background image with book + overlay text PNGs */}
+      {/* HERO: background image / color + overlays */}
       <section className="landing-hero">
-        <div
-          className="landing-hero-bg"
-          style={heroStyles[activeSection]}
-        />
+        <div className="landing-hero-bg" style={heroStyles[activeSection]} />
 
+        {/* Default HOME hero with book text PNGs */}
         {activeSection === "home" && (
           <div className="landing-hero-overlay">
             <div className="landing-hero-side landing-hero-side-left">
@@ -207,46 +262,199 @@ function Landing() {
           </div>
         )}
 
-        {activeSection === "shop" && (
-          <div className="landing-hero-overlay">
-            {/* future SHOP content if you want */}
+{activeSection === "shop" && (
+  <div className="landing-shop-split">
+
+    {/* LEFT: book image + buy button */}
+    <div className="landing-shop-left">
+
+      <div className="landing-shop-left-inner">
+
+        {/* Book image */}
+        <img
+          src="/sale-book-bg-3-lines.png"
+          alt="SWAY rulebook"
+          className="landing-shop-image"
+        />
+
+        {/* Publit button BELOW the book image */}
+        <div id="publit-shop-container" className="publit-wrapper"></div>
+      </div>
+    </div>
+
+    {/* RIGHT: only text now */}
+    <div className="landing-shop-right">
+
+      <div className="landing-shop-info">
+        <div className="header-text !text-[60px]">SWAY – rulebook</div>
+
+        <div className="header-text !text-[20px]">
+          A Quick & light-hearted skirmish RPG for 28–32mm minis.
+        </div>
+
+        <p className="landing-shop-body">
+          <strong><br />The game features:</strong><br />
+          • Miniature-agnostic, genre-agnostic<br />
+          • One d20 to rule them all. (11+ always succeeds)<br />
+          • Only 4 models per player, fast games, zero brain strain<br />
+          • Bag-based activation, to keep players on their toes.<br />
+          • 20 weird skills (become Slippery, Brainwashed, or The Legend)<br />
+          • Items, accessories &amp; NPCs<br />
+          • Surprise Sway Cards, turn the tide at any moment.<br />
+          • No health tracking, no XP bookkeeping<br />
+          • Three mini-campaigns: Fantasy, Thriller, Sci-Fi
+        </p>
+
+        <p className="landing-shop-body">
+          Use any minis. Mix genres irresponsibly. <br />Games are fast, chaotic and brain-safe.
+        </p>
+
+        <p className="landing-shop-body">
+          <strong>Book dimensions:</strong> 148×210mm
+        </p>
+      </div>
+
+    </div>
+  </div>
+)}
+
+
+
+
+        {/* You can add custom overlays for community/files later if you want */}
+        {activeSection === "community" && (
+  <div className="landing-community-panel">
+    <div className="landing-community-inner">
+
+      {/* LEFT COLUMN */}
+      <div className="landing-community-left">
+        <div className="header-text !text-[28px] mb-2">Gaming communities</div>
+
+        <div className="description-text !text-[14px]">
+          <strong>Gropen</strong><br />
+          (link coming)<br /><br />
+
+          <strong>BGG Page</strong><br />
+          (link coming)<br /><br />
+
+          <strong>Facebook</strong><br />
+          (url coming)<br /><br />
+
+          <strong>Instagram</strong><br />
+          (url coming)<br />
+        </div>
+      </div>
+
+
+      {/* RIGHT COLUMN */}
+      <div className="landing-community-right">
+        <div className="header-text !text-[28px] mb-2">NEWS</div>
+
+        <div className="description-text !text-[14px] leading-relaxed">
+          <strong>2025-11-29</strong><br />
+          I’m stoked to start building this community section, even though the project is still a big secret.
+        </div>
+      </div>
+
+    </div>
+  </div>
+)}
+
+
+        {activeSection === "files" && (
+  <div className="landing-shop-overlay landing-files-panel">
+    <div className="landing-files-inner">
+      <div className="header-text !text-[32px] mb-4 ">
+        Free files
+      </div>
+
+      <div className="landing-files-list">
+        {/* BOOK PDF – replace href when you have the URL */}
+        <a
+          className="landing-files-link"
+          href="BOOK_PDF_URL_HERE"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="header-text !text-[22px]">
+            RULEBOOK PDF
           </div>
-        )}
+          <div className="input-text !text-[16px]">
+            100% free!
+          </div>
+        </a>
+
+        {/* ICON STLs – actual R2 link */}
+        <a
+          className="landing-files-link"
+          href="https://files.swaygame.info/sway_icon_stl_v005/sway_icons_stl_v005.zip"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="header-text !text-[22px]">
+            Icon STLs
+          </div>
+          <div className="input-text !text-[16px]">
+            Use with any 3D printer!
+          </div>
+        </a>
+
+        {/* SWAY Cards – replace href when ready */}
+        <a
+          className="landing-files-link"
+          href="SWAY_CARDS_URL_HERE"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="header-text !text-[22px]">
+            SWAY Cards
+          </div>
+          <div className="input-text !text-[16px]">
+            Print and laminate!
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+)}
+
       </section>
 
       {/* Bottom yellow bar with 4 categories (PNG only) */}
       <nav className="landing-nav">
-        <button
-          type="button"
-          className="landing-nav-item"
-          onClick={() => setActiveSection("shop")}
-        >
-          <img src="/nav-shop.png" alt="Shop" className="landing-nav-img" />
-        </button>
+  <button
+    type="button"
+    className="landing-nav-item"
+    onClick={() => handleNavClick("shop")}   // ← changed
+  >
+    <img src="/nav-shop.png" alt="Shop" className="landing-nav-img" />
+  </button>
 
-        <button
-          type="button"
-          className="landing-nav-item"
-          onClick={() => setActiveSection("community")}
-        >
-          <img src="/nav-community.png" alt="Community" className="landing-nav-img" />
-        </button>
+  <button
+    type="button"
+    className="landing-nav-item"
+    onClick={() => handleNavClick("community")}   // ← changed
+  >
+    <img src="/nav-community.png" alt="Community" className="landing-nav-img" />
+  </button>
 
-        <Link to="/creator" className="landing-nav-item">
-          <img src="/nav-creator.png" alt="Character Creator" className="landing-nav-img" />
-        </Link>
+  <Link to="/creator" className="landing-nav-item">
+    <img src="/nav-creator.png" alt="Character Creator" className="landing-nav-img" />
+  </Link>
 
-        <button
-          type="button"
-          className="landing-nav-item"
-          onClick={() => setActiveSection("files")}
-        >
-          <img src="/nav-files.png" alt="Free Files" className="landing-nav-img" />
-        </button>
-      </nav>
+  <button
+    type="button"
+    className="landing-nav-item"
+    onClick={() => handleNavClick("files")}   // ← changed
+  >
+    <img src="/nav-files.png" alt="Free Files" className="landing-nav-img" />
+  </button>
+</nav>
+
     </div>
   );
 }
+
 
 
 
