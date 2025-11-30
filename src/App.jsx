@@ -439,7 +439,7 @@ script.text = `
   </button>
 
   <Link to="/creator" className="landing-nav-item">
-    <img src="/nav-creator.png" alt="Character Creator" className="landing-nav-img" />
+    <img src="/nav-creator2.png" alt="Character Creator" className="landing-nav-img" />
   </Link>
 
   <button
@@ -447,7 +447,7 @@ script.text = `
     className="landing-nav-item"
     onClick={() => handleNavClick("files")}   // ← changed
   >
-    <img src="/nav-files.png" alt="Free Files" className="landing-nav-img" />
+    <img src="/nav-files2.png" alt="Free Files" className="landing-nav-img" />
   </button>
 </nav>
 
