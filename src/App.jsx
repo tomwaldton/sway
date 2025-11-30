@@ -372,12 +372,12 @@ script.text = `
         {/* BOOK PDF – replace href when you have the URL */}
         <a
           className="landing-files-link"
-          href="BOOK_PDF_URL_HERE"
+          href="https://files.swaygame.info/rulebook/SWAY%20-%20RULEBOOK%201.0.0%20v2.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >
           <div className="header-text !text-[22px]">
-            RULEBOOK PDF
+            SWAY - RULEBOOK PDF
           </div>
           <div className="input-text !text-[16px]">
             100% free!
