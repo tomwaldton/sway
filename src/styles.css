@@ -347,7 +347,7 @@ textarea {
   position: relative;
   z-index: 5;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 5rem 2rem 3rem;
   display: flex;
@@ -356,7 +356,7 @@ textarea {
 
 .landing-community-inner {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   display: flex;
   gap: 3rem;
   padding: 2rem;
@@ -367,15 +367,23 @@ textarea {
 .landing-community-left {
   flex: 1;
   padding-right: 1.5rem;
-  border-right: 2px solid #000; /* ✔ only this one stays */
+  border-right: 2px solid #000;   /* line between Communities and News */
 }
 
-/* Right column */
+/* Middle column (NEWS) */
+.landing-community-middle {
+  flex: 1;
+  padding: 0 1.5rem;
+  border-right: 2px solid #000;   /* line between News and Roadmap */
+}
+
+/* Right column (ROADMAP) */
 .landing-community-right {
   flex: 1;
   padding-left: 1.5rem;
-  border: none;                  /* ❌ remove border */
+  border: none;                   /* no extra border */
 }
+
 
 /* Mobile layout */
 @media (max-width: 640px) {

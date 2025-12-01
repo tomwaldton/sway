@@ -324,30 +324,33 @@ script.text = `
         {/* You can add custom overlays for community/files later if you want */}
         {activeSection === "community" && (
   <div className="landing-community-panel">
-    <div className="landing-community-inner">
+    <div className="landing-community-inner justify-between">
 
       {/* LEFT COLUMN */}
       <div className="landing-community-left">
         <div className="header-text !text-[28px] mb-2">Gaming communities</div>
 
         <div className="description-text !text-[14px]">
-          <strong>Gropen</strong><br />
-          (link coming)<br /><br />
+          <strong>Gropen : Stockholm</strong><br />
+          <a
+            href="https://www.youtube.com/@GropenGaming"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            YouTube
+          </a>
+          <br /><br />
 
           <strong>BGG Page</strong><br />
           (link coming)<br /><br />
-
-          <strong>Facebook</strong><br />
-          (url coming)<br /><br />
 
           <strong>Instagram</strong><br />
           (url coming)<br />
         </div>
       </div>
 
-
-      {/* RIGHT COLUMN */}
-      <div className="landing-community-right">
+      {/* MIDDLE COLUMN – NEWS */}
+      <div className="landing-community-middle">
         <div className="header-text !text-[28px] mb-2">NEWS</div>
 
         <div className="description-text !text-[14px] leading-relaxed">
@@ -356,9 +359,31 @@ script.text = `
         </div>
       </div>
 
+      {/* RIGHT COLUMN – ROADMAP */}
+      <div className="landing-community-right">
+        <div className="header-text !text-[28px] mb-2">ROADMAP</div>
+
+        <div className="description-text !text-[14px] leading-relaxed">
+          <strong>Website</strong><br />
+          • Team Creator<br />
+          &nbsp;&nbsp;– fix print function<br />
+          &nbsp;&nbsp;– fix layout for phones<br /><br />
+
+          <strong>Releases</strong><br />
+          • DriveThruRPG<br />
+          &nbsp;&nbsp;– plan to release the physical book for US & UK<br />
+          • Other store intakes<br /><br />
+
+          <strong>Future releases</strong><br />
+          • Scenarios & missions<br />
+          &nbsp;&nbsp;– if all goes well, more campaigns & missions<br />
+        </div>
+      </div>
+
     </div>
   </div>
 )}
+
 
 
         {activeSection === "files" && (
@@ -402,7 +427,7 @@ script.text = `
         {/* SWAY Cards – replace href when ready */}
         <a
           className="landing-files-link"
-          href="SWAY_CARDS_URL_HERE"
+          href="https://files.swaygame.info/swaycards/swaycards_pdf_v002.pdf"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -462,6 +487,42 @@ script.text = `
 
 
 function CharacterCreator() {
+
+  const [showPrintNotice, setShowPrintNotice] = useState(false);
+const [showPhoneWarning, setShowPhoneWarning] = useState(false);
+useEffect(() => {
+  const isPhone = window.innerWidth <= 640; // matches Tailwind "sm"
+  if (isPhone) {
+    setShowPhoneWarning(true);
+  }
+}, []);
+{showPhoneWarning && (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
+    <div className="bg-white border-4 border-black rounded-lg p-6 w-[350px] text-center shadow-xl">
+      
+      <div className="header-text !text-[32px] mb-4">
+        SORRY
+      </div>
+
+      <div className="input-text !text-[16px] leading-relaxed mb-6">
+        Team Creator does not work<br />
+        on phones *currently*.<br /><br />
+        But it is on the to-do list!
+      </div>
+
+      <button
+        className="mt-2 w-full bg-black text-white header-text py-2 rounded"
+        onClick={() => {
+          // send user back to landing page
+          window.location.href = "/";
+        }}
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
+
   const characterScrollRef = useRef(null);
 const [canScrollLeft, setCanScrollLeft] = useState(false);
 const [canScrollRight, setCanScrollRight] = useState(false);
@@ -505,6 +566,7 @@ useEffect(() => {
   el.addEventListener('wheel', handleWheel, { passive: false });
   return () => el.removeEventListener('wheel', handleWheel);
 }, []);
+
 
 const characterCount = 4;
 const [index, setindex] = useState(0);
@@ -682,7 +744,7 @@ return (
   </Link>
 
 
-<img src="/swaycover 11_cmyk characters seperated color.png" alt="Team Logo Right" className="w-1/2 max-h-[180px] object-contain" />
+<img src="/swaycover 11_cmyk characters seperated color v2.png" alt="Team Logo Right" className="w-1/2 max-h-[180px] object-contain" />
 
 </div>
 
@@ -735,12 +797,13 @@ return (
         onChange={(e) => setTeamNotes(e.target.value)}
       />
 
-      <button
+<button
   className="mt-2 w-full bg-[#442655] !text-[#ffee2a] header-text !text-[22px] py-1 rounded shadow"
-  onClick={() => window.print()}
+  onClick={() => setShowPrintNotice(true)}
 >
   Print Team
 </button>
+
 
 <button
   className="mt-2 w-full bg-[#e87a2f] !text-[#ffee2a] header-text !text-[22px] py-1 rounded shadow"
@@ -824,7 +887,8 @@ return (
 {canScrollLeft && (
   <button
     onClick={() => characterScrollRef.current.scrollBy({ left: -2000, behavior: 'smooth' })}
-    className="fixed left-[510px] top-1/2 transform -translate-y-1/2 z-50 rounded-md p-2 bg-black hover:bg-black/50 transition"
+className="fixed left-[360px] top-1/2 transform -translate-y-1/2 z-50 rounded-md p-2 bg-black hover:bg-black/50 transition"
+
   >
     <span className="text-white text-2xl font-bold">◄</span>
   </button>
@@ -1265,6 +1329,29 @@ setCharacters(updatedCharacters);
 
 
 
+{showPrintNotice && (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
+    <div className="bg-white border-4 border-black rounded-lg p-6 w-[460px] text-center shadow-xl">
+      
+      <div className="header-text !text-[32px] mb-4">
+        SORRY
+      </div>
+
+      <div className="input-text !text-[16px] leading-relaxed mb-6">
+        The print function is being tweaked.<br />
+        will be fixed soon.<br /><br />
+        Please screenshot for now.
+      </div>
+
+      <button
+        className="mt-2 w-full bg-black !text-white header-text py-2 rounded"
+        onClick={() => setShowPrintNotice(false)}
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
 
 
 
@@ -1737,7 +1824,11 @@ onChange={(e) => {
 
 
   })} 
-   </div>    </div>)}
+   </div>    </div>
+   )
+   
+  
+  }
 
 export default function App() {
   return (
