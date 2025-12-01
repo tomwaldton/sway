@@ -305,13 +305,10 @@ script.text = `
           • Three mini-campaigns: Fantasy, Thriller, Sci-Fi
         </p>
 
-        <p className="landing-shop-body">
-          Use any minis. Mix genres irresponsibly. <br />Games are fast, chaotic and brain-safe.
+        <p className="header-text !text-[20px]">
+          Games are fast, chaotic and brain-safe. <br />Rulebook Pdf 100% free! - available under free files .
         </p>
 
-        <p className="landing-shop-body">
-          <strong>Book dimensions:</strong> 148×210mm
-        </p>
       </div>
 
     </div>
