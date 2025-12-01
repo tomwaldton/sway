@@ -496,8 +496,15 @@ const [canScrollLeft, setCanScrollLeft] = useState(false);
 const [canScrollRight, setCanScrollRight] = useState(false);
 
   useEffect(() => {
-    document.title = "SWAY - Character Creator";
+    document.title = "SWAY - Team Creator";
   }, []);
+
+  useEffect(() => {
+  if (window.innerWidth < 640) {
+    setShowPhoneWarning(true);
+  }
+}, []);
+
 
 // Detect scroll availability
 useEffect(() => {
@@ -1336,7 +1343,7 @@ setCharacters(updatedCharacters);
       </div>
 
       <button
-        className="mt-2 w-full bg-black text-white header-text py-2 rounded"
+        className="mt-2 w-full bg-black !text-white header-text py-2 rounded"
         onClick={() => {
           // send user back to landing page
           window.location.href = "/";
