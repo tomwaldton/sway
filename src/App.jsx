@@ -490,38 +490,6 @@ function CharacterCreator() {
 
   const [showPrintNotice, setShowPrintNotice] = useState(false);
 const [showPhoneWarning, setShowPhoneWarning] = useState(false);
-useEffect(() => {
-  const isPhone = window.innerWidth <= 640; // matches Tailwind "sm"
-  if (isPhone) {
-    setShowPhoneWarning(true);
-  }
-}, []);
-{showPhoneWarning && (
-  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
-    <div className="bg-white border-4 border-black rounded-lg p-6 w-[350px] text-center shadow-xl">
-      
-      <div className="header-text !text-[32px] mb-4">
-        SORRY
-      </div>
-
-      <div className="input-text !text-[16px] leading-relaxed mb-6">
-        Team Creator does not work<br />
-        on phones *currently*.<br /><br />
-        But it is on the to-do list!
-      </div>
-
-      <button
-        className="mt-2 w-full bg-black text-white header-text py-2 rounded"
-        onClick={() => {
-          // send user back to landing page
-          window.location.href = "/";
-        }}
-      >
-        OK
-      </button>
-    </div>
-  </div>
-)}
 
   const characterScrollRef = useRef(null);
 const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -1346,6 +1314,33 @@ setCharacters(updatedCharacters);
       <button
         className="mt-2 w-full bg-black !text-white header-text py-2 rounded"
         onClick={() => setShowPrintNotice(false)}
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
+
+{showPhoneWarning && (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
+    <div className="bg-white border-4 border-black rounded-lg p-6 w-[350px] text-center shadow-xl">
+      
+      <div className="header-text !text-[32px] mb-4">
+        SORRY
+      </div>
+
+      <div className="input-text !text-[16px] leading-relaxed mb-6">
+        Team Creator does not work<br />
+        on phones *currently*.<br /><br />
+        But it is on the to-do list!
+      </div>
+
+      <button
+        className="mt-2 w-full bg-black text-white header-text py-2 rounded"
+        onClick={() => {
+          // send user back to landing page
+          window.location.href = "/";
+        }}
       >
         OK
       </button>
