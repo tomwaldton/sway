@@ -342,7 +342,21 @@ script.text = `
           (link coming)<br /><br />
 
           <strong>Instagram</strong><br />
-          (url coming)<br />
+          (url coming)<br /><br />
+
+                    <strong>Reddit</strong><br />
+          <a
+            href="hhttps://www.reddit.com/r/tabletopgamedesign/comments/1pca5dd/sway_is_out_a_miniatureagnostic_skirmish_rpg_free/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            r/tabletopgamedesign post
+          </a><br /><br /><br /><br />
+
+
+          <strong>mail the creator</strong><br />
+          hello@swaygame.info<br /><br />
+
         </div>
       </div>
 
