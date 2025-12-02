@@ -306,7 +306,7 @@ script.text = `
         </p>
 
         <p className="header-text !text-[20px]">
-          Games are fast, chaotic and brain-safe. <br />Rulebook Pdf 100% free! - available under free files .
+          Games are quick, chaotic and brain-safe. <br />Rulebook Pdf 100% free! - available under free files .
         </p>
 
       </div>

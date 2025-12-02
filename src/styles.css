@@ -200,32 +200,41 @@ textarea {
 
 
 /* Overlay row for left/right text images */
+/* Overlay row for left/right text images */
 .landing-hero-overlay {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;              /* wider = images pushed closer to edges */
   margin: 0 auto;
-  padding: 6rem 2rem 3rem; /* top padding leaves space for logo */
+  padding: 6rem 2rem 3rem;        /* keeps nice space under the logo */
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* left and right hug the sides of this row */
   gap: 2rem;
 }
 
 /* Side containers */
 .landing-hero-side {
-  flex: 0 1 32%;
+  flex: 0 0 auto;                 /* only as wide as the image, no “32%” column */
   display: flex;
-  justify-content: center;
+}
+
+.landing-hero-side-left {
+  justify-content: flex-start;    /* lean towards left edge */
+}
+
+.landing-hero-side-right {
+  justify-content: flex-end;      /* lean towards right edge */
 }
 
 .landing-hero-text-img {
   width: 100%;
   height: auto;
-  max-width: 360px;
+  max-width: 440px;               /* bigger flavour PNGs */
   display: block;
 }
+
 
 .landing-home-btn {
   position: absolute;
@@ -511,17 +520,49 @@ textarea {
   .landing-hero-overlay {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding-top: 5.5rem;
-    padding-bottom: 2rem;
+    justify-content: flex-start;  /* no longer vertically centered */
+    padding-top: 0.5rem;          /* roughly the home-icon height */
+    padding-bottom: 0rem;
+    gap: 2.5rem;
   }
 
   .landing-hero-side {
     flex-basis: auto;
   }
 
+  /* Left PNG: near the top */
+  .landing-hero-side-left {
+    margin-top: 0;    
+    transform: translateX(40px);   /* move a bit to the right */
+  }
+
+  /* Right PNG: pushed further down */
+  .landing-hero-side-right {
+    margin-bottom: 2rem;
+        transform: translateX(-40px);  /* move a bit to the left */
+        visibility: hidden;
+  }
+
   .landing-hero-text-img {
-    max-width: 80%;
+    max-width: 75%;
+  }
+
+  /* 🔶 Orange bar behind each PNG */
+.landing-hero-side::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);   /* center the bar under the image */
+  width: 200%;                         /* how far the bar extends horizontally */
+  height: 130%;                        /* same height as the side/image */
+  background: rgba(255, 145, 0, 0.616); /* #e87a2f at ~50% opacity */
+  border-radius: 10px;                 /* optional: soft corners */
+  z-index: -5;
+}
+  .landing-hero-bg {
+    background-size: 260%;     /* Bigger image (cover × 1.8) */
+    background-position: center 0%;  /* Adjust vertical framing */
   }
 
   .landing-nav {
@@ -529,18 +570,17 @@ textarea {
   }
 
   .landing-nav {
-    grid-template-columns: repeat(1, 4fr);       /* still 2 × 2 on phones */
+    grid-template-columns: repeat(1, 4fr);
     gap: 4rem;
     padding: 1.25rem 1.25rem 1.75rem;
   }
 
-    /* 🔽 Add this: scale nav buttons down to ~50% */
   .landing-nav-img {
     max-width: 50%;
     height: auto;
   }
-
 }
+
 
 @media (max-width: 900px) {
   .landing-shop-split {
