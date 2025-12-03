@@ -534,6 +534,7 @@ textarea {
   .landing-hero-side-left {
     margin-top: 0;    
     transform: translateX(40px);   /* move a bit to the right */
+            visibility: hidden;
   }
 
   /* Right PNG: pushed further down */
