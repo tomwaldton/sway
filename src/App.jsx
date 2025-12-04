@@ -147,6 +147,25 @@ function Landing() {
   // 🔹 STATE MUST COME BEFORE ANY HOOKS THAT USE IT
   const [activeSection, setActiveSection] = useState("home");
 
+    // 🔹 Slideshow images for the Shop page
+  const shopImages = [
+    "/sale-book-bg-3-lines.png",
+        "/sale-book-back.png",
+    "/sale-book-closeup.png",
+    "/sale-game_01.png"
+  ];
+  const [shopImageIndex, setShopImageIndex] = useState(0);
+
+  const nextShopImage = () => {
+    setShopImageIndex((prev) => (prev + 1) % shopImages.length);
+  };
+
+  const prevShopImage = () => {
+    setShopImageIndex((prev) =>
+      (prev - 1 + shopImages.length) % shopImages.length
+    );
+  };
+
   // Set page title
   useEffect(() => {
     document.title = "SWAY - Main";
@@ -270,15 +289,52 @@ script.text = `
 
       <div className="landing-shop-left-inner">
 
-        {/* Book image */}
-        <img
-          src="/sale-book-bg-3-lines.png"
-          alt="SWAY rulebook"
-          className="landing-shop-image"
-        />
+{/* Book slideshow */}
+<div className="shop-slideshow">
+  <div className="shop-slideshow-image-wrapper">
+    <img
+      src={shopImages[shopImageIndex]}
+      alt="SWAY rulebook"
+      className="landing-shop-image"
+    />
+
+    {/* Prev / Next arrows */}
+    <button
+      type="button"
+      className="shop-slide-nav shop-slide-nav-left"
+      onClick={prevShopImage}
+    >
+      ‹
+    </button>
+    <button
+      type="button"
+      className="shop-slide-nav shop-slide-nav-right"
+      onClick={nextShopImage}
+    >
+      ›
+    </button>
+  </div>
+
+  {/* Dots */}
+  <div className="shop-slide-dots">
+    {shopImages.map((_, i) => (
+      <button
+        key={i}
+        type="button"
+        className={
+          "shop-slide-dot" + (i === shopImageIndex ? " shop-slide-dot-active" : "")
+        }
+        onClick={() => setShopImageIndex(i)}
+        aria-label={`Show image ${i + 1}`}
+      />
+    ))}
+  </div>
+</div>
 
         {/* Publit button BELOW the book image */}
         <div id="publit-shop-container" className="publit-wrapper"></div>
+
+
       </div>
     </div>
 
@@ -306,7 +362,15 @@ script.text = `
         </p>
 
         <p className="header-text !text-[20px]">
-          Games are quick, chaotic and brain-safe. <br />Rulebook Pdf 100% free! - available under free files .
+Rulebook Pdf 100% free! - available under free files . <br /> <br />
+                         <div className="header-text !text-[17px]">
+          PRINTED IN SWEDEN! - LOCATED IN US OR UK?  <br />
+          WANT TO SAVE SHIPPING? - BOOK COMING SOON ON: &nbsp;
+<a href="https://www.drivethrurpg.com" target="_blank" rel="noopener noreferrer">
+  <span className="!text-[#e8432b]">DRIVETHRURPG</span>
+</a>
+
+        </div>
         </p>
 
       </div>
@@ -358,7 +422,10 @@ script.text = `
         <div className="header-text !text-[28px] mb-2">NEWS</div>
 
         <div className="description-text !text-[14px] leading-relaxed">
-          <strong>2025-11-29</strong><br />
+          <strong>2025-12-04</strong><br />
+          Started going public 36 hours ago. THe site has been viewed  ~2000 times since, starting from almost 0 people knowing... it's all mind blowing really. 
+
+          <br /><br /><strong>2025-11-29</strong><br />
           I’m stoked to start building this community section, even though the project is still a big secret.
         </div>
       </div>
@@ -450,7 +517,7 @@ script.text = `
       </section>
 
       {/* Bottom yellow bar with 4 categories (PNG only) */}
-      <nav className="landing-nav">
+      <nav className="landing-nav bottom-0 left-0 w-full">
   <button
     type="button"
     className="landing-nav-item"
