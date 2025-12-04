@@ -1016,7 +1016,11 @@ return (
   const modifiers = getModifiersForCharacter(char);
 
       return (
-        <div key={index} className="character-sheet-print relative p-2 w-[500px] border rounded shadow bg-white flex-shrink-0">
+<div
+  key={index}
+  className="character-sheet-print relative p-2 w-[94vw] sm:w-[500px] border rounded shadow bg-white flex-shrink-0"
+>
+
 {modifiers._DEAD && (
   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
     <div className="text-6xl text-red-600 font-extrabold drop-shadow-lg">
