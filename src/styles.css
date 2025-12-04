@@ -68,6 +68,12 @@ textarea {
   gap: 2rem;
 }
 
+.character-sheet-print {
+  height: 895px;       /* fixed height */
+  max-height: 900px;   /* just to be safe */
+  overflow-y: none;    /* if content is taller, scroll inside the sheet */
+}
+
 @media print {
 
 .force-page-break {

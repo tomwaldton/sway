@@ -143,6 +143,7 @@ const TeamOverview = ({ teamName, characters, teamCredits, teamNotes, calculateC
   );
 };
 
+
 function Landing() {
   // 🔹 STATE MUST COME BEFORE ANY HOOKS THAT USE IT
   const [activeSection, setActiveSection] = useState("home");
@@ -562,6 +563,9 @@ function CharacterCreator() {
   const [showPrintNotice, setShowPrintNotice] = useState(false);
 const [showPhoneWarning, setShowPhoneWarning] = useState(false);
 
+const [sheetsVisible, setSheetsVisible] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);  // <-- add this
+
   const characterScrollRef = useRef(null);
 const [canScrollLeft, setCanScrollLeft] = useState(false);
 const [canScrollRight, setCanScrollRight] = useState(false);
@@ -595,6 +599,39 @@ useEffect(() => {
     window.removeEventListener('resize', handleScroll);
   };
 }, []);
+
+useEffect(() => {
+  const target = document.getElementById("character-sheet-area");
+  if (!target) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0];
+      // visible if at least 20% on screen
+      setSheetsVisible(entry.isIntersecting && entry.intersectionRatio > 0.2);
+    },
+    {
+      threshold: [0, 0.2, 1],
+    }
+  );
+
+  observer.observe(target);
+
+  return () => observer.disconnect();
+}, []);
+
+useEffect(() => {
+  const handleScroll = () => {
+    // show button after user has scrolled down a bit
+    setShowScrollTop(window.scrollY > 200);
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // set initial value
+
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
+
 
 // Enable mouse wheel horizontal scroll
 useEffect(() => {
@@ -774,18 +811,19 @@ const calculateMoveForCharacter = (character) => {
 // RENDER things below!
 
 return (
-  <div className="print-only-character-sheet flex h-screen overflow-hidden">
+  <div className="print-only-character-sheet flex flex-col md:flex-row md:h-screen md:overflow-hidden">
+
 
 
     {/* Left Column – Team Overview */}
     
-    <div className="left-column w-[350px] p-4 border-r bg-[#ffee2a]">
+<div className="left-column w-full md:w-[350px] p-4 border-r bg-[#ffee2a]">
 <div className="mt-auto flex gap-1 mb-2">
   <Link to="/" className="w-1/2">
     <img
       src="/sway_logo_only_rgb_cutout_2k.png"
       alt="Team Logo Left"
-      className="w-full max-h-[140px] object-contain cursor-pointer"
+      className="w-full max-h-[180px] object-contain cursor-pointer"
     />
   </Link>
 
@@ -836,7 +874,7 @@ return (
 
 
       <textarea
-        className="w-full h-[305px] mt-2 p-2 rounded input-text left-input"
+        className="w-full h-[300px] mt-2 p-2 rounded input-text left-input"
         rows="4"
         placeholder="Notes..."
         value={teamNotes}
@@ -926,37 +964,59 @@ return (
     {/* Middle Column – Character Sheet */}
 <div
   ref={characterScrollRef}
-  className="character-sheet-area flex-1 relative overflow-x-auto"
+  className="character-sheet-area flex-1 relative"
+  id="character-sheet-area"
   style={{ overflowY: 'hidden' }}
 >
 
-{canScrollLeft && (
+{sheetsVisible && canScrollLeft && (
   <button
     onClick={() => characterScrollRef.current.scrollBy({ left: -2000, behavior: 'smooth' })}
-className="fixed left-[360px] top-1/2 transform -translate-y-1/2 z-50 rounded-md p-2 bg-black hover:bg-black/50 transition"
-
+    className="fixed left-2 md:left-[360px] top-1/2 -translate-y-1/2 z-50 rounded-md p-2 bg-black hover:bg-black/50 transition"
   >
     <span className="text-white text-2xl font-bold">◄</span>
   </button>
 )}
-{canScrollRight && (
+
+{sheetsVisible && canScrollRight && (
   <button
     onClick={() => characterScrollRef.current.scrollBy({ left: 2000, behavior: 'smooth' })}
-    className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 rounded-md p-2 bg-black hover:bg-black/50 transition"
+    className="fixed right-2 md:right-4 top-1/2 -translate-y-1/2 z-50 rounded-md p-2 bg-black hover:bg-black/50 transition"
   >
     <span className="text-white text-2xl font-bold">►</span>
   </button>
 )}
 
+{showScrollTop && (
+  <button
+    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+    className="
+      fixed 
+      top-2                       /* move to top */
+      left-1/2                    /* horizontal center anchor */
+      -translate-x-1/2            /* truly center it */
+      z-50 
+      rounded-md 
+      p-2 
+      bg-black 
+      hover:bg-black/50 
+      transition
+      md:hidden                   /* only show on mobile */
+    "
+  >
+    <span className="text-white text-2xl font-bold">▲</span>
+  </button>
+)}
 
 
-  <div className="flex min-h-screen w-max gap-3 p-4">
+
+  <div className="flex min-h-screen w-max gap-3 p-2">
     {characters.map((char, charIndex) => {
   const stats = char.stats;
   const modifiers = getModifiersForCharacter(char);
 
       return (
-        <div key={index} className="character-sheet-print relative p-4 w-[500px] border rounded shadow bg-white flex-shrink-0">
+        <div key={index} className="character-sheet-print relative p-2 w-[500px] border rounded shadow bg-white flex-shrink-0">
 {modifiers._DEAD && (
   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
     <div className="text-6xl text-red-600 font-extrabold drop-shadow-lg">
@@ -1399,32 +1459,6 @@ setCharacters(updatedCharacters);
   </div>
 )}
 
-{showPhoneWarning && (
-  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
-    <div className="bg-white border-4 border-black rounded-lg p-6 w-[350px] text-center shadow-xl">
-      
-      <div className="header-text !text-[32px] mb-4">
-        SORRY
-      </div>
-
-      <div className="input-text !text-[16px] leading-relaxed mb-6">
-        Team Creator does not work<br />
-        on phones *currently*.<br /><br />
-        But it is on the to-do list!
-      </div>
-
-      <button
-        className="mt-2 w-full bg-black !text-white header-text py-2 rounded"
-        onClick={() => {
-          // send user back to landing page
-          window.location.href = "/";
-        }}
-      >
-        OK
-      </button>
-    </div>
-  </div>
-)}
 
 
 
