@@ -1465,6 +1465,32 @@ setCharacters(updatedCharacters);
 
 
 
+{showPhoneWarning && (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
+    <div className="bg-white border-4 border-black rounded-lg p-6 w-[350px] text-center shadow-xl">
+      
+      <div className="header-text !text-[32px] mb-4">
+        SORRY
+      </div>
+
+      <div className="input-text !text-[16px] leading-relaxed mb-6">
+        Team Creator does not work<br />
+        on phones *currently*.<br /><br />
+        But it is on the to-do list!
+      </div>
+
+      <button
+        className="mt-2 w-full bg-black !text-white header-text py-2 rounded"
+        onClick={() => {
+          // send user back to landing page
+          window.location.href = "/";
+        }}
+      >
+        OK
+      </button>
+    </div>
+  </div>
+)}
 
 
 
