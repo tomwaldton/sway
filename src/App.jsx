@@ -413,6 +413,7 @@ Rulebook Pdf 100% free! - available under free files . <br /> <br />
 
 
           <strong>mail the creator</strong><br />
+          Tom Waldton <br />
           hello@swaygame.info<br /><br />
 
         </div>
