@@ -390,29 +390,29 @@ Rulebook Pdf 100% free! - available under free files . <br /> <br />
 
       {/* LEFT COLUMN */}
       <div className="landing-community-left">
-        <div className="header-text !text-[28px] mb-2">Gaming communities</div>
+        <div className="header-text !text-[28px] mb-2">Communities</div> <br />
 
-        <div className="description-text !text-[14px]">
-          <strong>Gropen : Stockholm</strong><br />
+        <div className="description-text !text-[14px] ">
+          <strong> <u>open player groups </u> </strong> <br />
           <a
             href="https://www.youtube.com/@GropenGaming"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            YouTube
-          </a>
-          <br /><br />
+          >SWEDEN, STOCKHOLM: GROPEN </a><br /><br /><br />
 
-          <strong>BGG Page</strong><br />
-          (link coming)<br /><br />
-
-          <strong>Instagram</strong><br />
-          (url coming)<br /><br />
-
-<br /><br /><br /><br />
+<strong> <u>Online Sites & Resources </u></strong><br />
 
 
-          <strong>mail the creator</strong><br />
+                    <a
+            href="https://boardgamegeek.com/boardgame/459365/sway"
+            target="_blank"
+            rel="noopener noreferrer"
+          >BoardGameGeek </a><br /><br />
+
+
+
+<br />
+          <strong><u>message the creator</u></strong><br />
           Tom Waldton <br />
           hello@swaygame.info<br /><br />
 
@@ -424,10 +424,10 @@ Rulebook Pdf 100% free! - available under free files . <br /> <br />
         <div className="header-text !text-[28px] mb-2">NEWS</div>
 
         <div className="description-text !text-[14px] leading-relaxed">
-          <strong>2025-12-04</strong><br />
+          <strong><u>2025-12-04</u></strong><br />
           Started going public 36 hours ago. THe site has been viewed  ~2000 times since, starting from almost 0 people knowing... it's all mind blowing really. 
 
-          <br /><br /><strong>2025-11-29</strong><br />
+          <br /><br /><strong><u>2025-11-29</u></strong><br />
           I’m stoked to start building this community section, even though the project is still a big secret.
         </div>
       </div>
@@ -437,17 +437,17 @@ Rulebook Pdf 100% free! - available under free files . <br /> <br />
         <div className="header-text !text-[28px] mb-2">ROADMAP</div>
 
         <div className="description-text !text-[14px] leading-relaxed">
-          <strong>Website</strong><br />
+          <strong><u>Website</u></strong><br />
           • Team Creator<br />
           &nbsp;&nbsp;– fix print function<br />
           &nbsp;&nbsp;– fix layout for phones<br /><br />
 
-          <strong>Releases</strong><br />
+          <strong><u>Releases</u></strong><br />
           • DriveThruRPG<br />
           &nbsp;&nbsp;– plan to release the physical book for US & UK<br />
           • Other store intakes<br /><br />
 
-          <strong>Future releases</strong><br />
+          <strong><u>Future releases</u></strong><br />
           • Scenarios & missions<br />
           &nbsp;&nbsp;– if all goes well, more campaigns & missions<br />
         </div>
