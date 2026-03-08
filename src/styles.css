@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,11 +17,11 @@ textarea {
 }
 
 .description-text {
-  @apply text-[9px] font-normal text-gray-900 font-chainprinter not-italic ;
+  @apply text-[9px] font-normal text-gray-900 font-chainprinter not-italic;
 }
 
 .left-input {
-  background-color: #fcf8cc  !important;
+  background-color: #fcf8cc !important;
 }
 
 .team-name-input::placeholder {
@@ -40,112 +39,25 @@ textarea {
   -webkit-appearance: none;
   margin: 0;
 }
-
 .team-credits-input {
-  -moz-appearance: textfield; /* Firefox */
+  -moz-appearance: textfield;
 }
 
-
-/* Universal hide scrollbar in all browsers */
-.character-sheet-area::-webkit-scrollbar {
-  display: none;
-}
-
+/* Hide scrollbar on character sheet area */
+.character-sheet-area::-webkit-scrollbar { display: none; }
 .character-sheet-area {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
-    overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-x: auto;
   overflow-y: hidden;
 }
 
-.screen-hidden {
-  display: none !important;
-}
-
-/* Group of two characters per printed page */
-.character-pair {
-  justify-content: left;
-  gap: 2rem;
-}
-
+/* Character sheet fixed height */
 .character-sheet-print {
-  height: 895px;       /* fixed height */
-  max-height: 900px;   /* just to be safe */
-  overflow-y: none;    /* if content is taller, scroll inside the sheet */
+  height: 895px;
+  max-height: 900px;
+  overflow: hidden;
 }
-
-@media print {
-
-.force-page-break {
-  display: block;
-  width: 100%;
-  height: 1px;
-  page-break-before: always;
-  break-before: page;
-  visibility: hidden;
-}
-    .character-sheet-area, 
-      .left-column {
-          display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    width: 0 !important;
-  }
-  
-  /* Hide interactive UI */
-  .print-only-character-sheet {
-    display: always !important;
-    visibility: hidden !important;
-    
-  }
-
-  .left-column {
-        display: none !important;
-    visibility: hidden !important;
-        height: 0 !important;
-    width: 0 !important;
-  }
-
-
-  /* Show the print clone */
-.print-clone {
-  display: block !important;
-  visibility: visible !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  box-sizing: border-box;
-}
-
-.print-page {
-  page-break-after: always;
-  break-after: page;
-}
-
-.character-pair {
-  display: block !important; /* ✅ force block layout */
-  border: 1px solid blue;
-}
-
-.character-sheet-print {
-  zoom: 0.8;
-  box-sizing: border-box;
-  page-break-inside: avoid;
-  margin-bottom: 1rem;
-    border: 2px dashed red;
-}
-
-.force-page-break {
-  display: block;
-  height: 1px;
-  width: 100%;
-  visibility: hidden;
-  page-break-before: always;
-  break-before: page;
-}
-
-
-}
-
 
 /* Make all Tailwind borders solid black */
 .border,
@@ -156,6 +68,56 @@ textarea {
   border-color: #000000 !important;
 }
 
+/* ========= PRINT ========= */
+
+/* Landscape on any paper size (A4 and US Letter both work) */
+@page {
+  size: landscape;
+  margin: 5mm 5mm 2mm 35mm; /* top | right | bottom | left */
+}
+
+/* Hide print layout on screen */
+.print-only {
+  display: none;
+}
+
+@media print {
+  /* Hide the interactive UI */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Show the print layout */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Each page: two character sheets side by side */
+  .print-page {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start;
+    gap: 6mm;
+    page-break-after: always;
+    break-after: page;
+    width: 100%;
+  }
+
+  /* Scale each sheet to fit A4 landscape height */
+  .print-page .character-sheet-print {
+    zoom: 0.84;
+    width: 500px !important;
+    height: 895px !important;
+    max-height: 895px !important;
+    overflow: hidden !important;
+    flex-shrink: 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+}
+
 /* ========= LANDING PAGE ========= */
 
 .landing-page {
@@ -163,12 +125,11 @@ textarea {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-color: #f0e0c6; /* fallback behind the bg image */
+  background-color: #f0e0c6;
   color: #1f1f1f;
   overflow: hidden;
 }
 
-/* Logo top-left */
 .landing-header {
   position: absolute;
   top: 1.5rem;
@@ -181,66 +142,51 @@ textarea {
   max-width: 40vw;
 }
 
-/* HERO AREA */
 .landing-hero {
   position: relative;
   flex: 1;
-  min-height: 60vh;           /* ✅ keeps hero tall enough so the book isn’t chopped */
+  min-height: 60vh;
   display: flex;
   align-items: stretch;
   justify-content: center;
 }
 
-
-/* Background with book image */
 .landing-hero-bg {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center 15%;  /* keep your perfect alignment */
+  background-position: center 15%;
   background-repeat: no-repeat;
   z-index: 0;
 }
 
-
-
-
-/* Overlay row for left/right text images */
-/* Overlay row for left/right text images */
 .landing-hero-overlay {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 1600px;              /* wider = images pushed closer to edges */
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 6rem 2rem 3rem;        /* keeps nice space under the logo */
+  padding: 6rem 2rem 3rem;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* left and right hug the sides of this row */
+  justify-content: space-between;
   gap: 2rem;
 }
 
-/* Side containers */
 .landing-hero-side {
-  flex: 0 0 auto;                 /* only as wide as the image, no “32%” column */
+  flex: 0 0 auto;
   display: flex;
 }
 
-.landing-hero-side-left {
-  justify-content: flex-start;    /* lean towards left edge */
-}
-
-.landing-hero-side-right {
-  justify-content: flex-end;      /* lean towards right edge */
-}
+.landing-hero-side-left  { justify-content: flex-start; }
+.landing-hero-side-right { justify-content: flex-end; }
 
 .landing-hero-text-img {
   width: 100%;
   height: auto;
-  max-width: 440px;               /* bigger flavour PNGs */
+  max-width: 440px;
   display: block;
 }
-
 
 .landing-home-btn {
   position: absolute;
@@ -259,21 +205,20 @@ textarea {
   object-fit: contain;
 }
 
-/* SHOP: split layout left (image) / right (info + widget) */
+/* SHOP */
 .landing-shop-split {
   position: relative;
   z-index: 5;
   width: 100%;
-  max-width: 1200px;              /* a bit more total width */
+  max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 0rem 3rem;
   display: flex;
-  align-items: flex-start;        /* align to top so it feels cleaner */
+  align-items: flex-start;
   justify-content: center;
   gap: 3rem;
 }
 
-/* LEFT column: book + button = ~2/3 */
 .landing-shop-left {
   flex: 0 0 65%;
   display: flex;
@@ -287,8 +232,7 @@ textarea {
   display: block;
 }
 
-/* ==== SHOP SLIDESHOW ==== */
-
+/* Shop slideshow */
 .shop-slideshow {
   width: 100%;
   display: flex;
@@ -320,18 +264,9 @@ textarea {
   cursor: pointer;
   opacity: 0.8;
 }
-
-.shop-slide-nav:hover {
-  opacity: 1;
-}
-
-.shop-slide-nav-left {
-  left: -18px;
-}
-
-.shop-slide-nav-right {
-  right: -18px;
-}
+.shop-slide-nav:hover { opacity: 1; }
+.shop-slide-nav-left  { left: -18px; }
+.shop-slide-nav-right { right: -18px; }
 
 .shop-slide-dots {
   display: flex;
@@ -349,13 +284,8 @@ textarea {
   padding: 0;
   cursor: pointer;
 }
+.shop-slide-dot-active { background: #000; }
 
-.shop-slide-dot-active {
-  background: #000;
-}
-
-
-/* RIGHT column: text = ~1/3 */
 .landing-shop-right {
   flex: 0 0 50%;
   display: flex;
@@ -363,7 +293,6 @@ textarea {
   gap: 1rem;
 }
 
-/* Text styling */
 .landing-shop-title {
   font-family: "veneertwo", system-ui, sans-serif;
   font-size: 2.2rem;
@@ -385,37 +314,22 @@ textarea {
   margin-bottom: 0.5rem;
 }
 
-
-
-/* Small note under button */
 .landing-shop-note {
   font-family: "chainprinter", system-ui, sans-serif;
   font-size: 0.8rem;
   color: #333;
 }
 
-
-/* Book image */
-.landing-shop-image {
-  width: auto;
-  max-height: 400px;
-}
-
 .landing-shop-left-inner {
   width: 100%;
-  max-width: auto;   /* ← you can tweak this number */
+  max-width: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
 }
 
-/* Publit wrapper uses full width of that inner container */
-.publit-wrapper {
-  width: 100%;
-}
-
-/* Force Publit internals to fill that width */
+.publit-wrapper { width: 100%; }
 .publit-wrapper .publit-webshop,
 .publit-wrapper .publit-webshop-item,
 .publit-wrapper iframe {
@@ -423,9 +337,7 @@ textarea {
   max-width: 100% !important;
 }
 
-
-/* ===== COMMUNITY PAGE ===== */
-
+/* COMMUNITY */
 .landing-community-panel {
   position: relative;
   z-index: 5;
@@ -443,56 +355,41 @@ textarea {
   display: flex;
   gap: 3rem;
   padding: 2rem;
-  border: none;                 /* ❌ remove outer borders */
+  border: none;
 }
 
-/* Left column */
 .landing-community-left {
   flex: 1;
   padding-right: 1.5rem;
-  border-right: 2px solid #000;   /* line between Communities and News */
+  border-right: 2px solid #000;
 }
 
-/* Middle column (NEWS) */
 .landing-community-middle {
   flex: 1;
   padding: 0 1.5rem;
-  border-right: 2px solid #000;   /* line between News and Roadmap */
+  border-right: 2px solid #000;
 }
 
-/* Right column (ROADMAP) */
 .landing-community-right {
   flex: 1;
   padding-left: 1.5rem;
-  border: none;                   /* no extra border */
+  border: none;
 }
 
-
-/* Mobile layout */
 @media (max-width: 640px) {
   .landing-community-inner {
     flex-direction: column;
     padding: 1rem;
   }
-
-  .landing-community-left {
-    border: none;
-    padding: 0;
-  }
-
-  /* 🔹 Remove line + extra padding from NEWS on phones */
+  .landing-community-left,
   .landing-community-middle {
     border: none;
     padding: 0;
   }
-
-  .landing-community-right {
-    padding: 0;
-  }
+  .landing-community-right { padding: 0; }
 }
 
-
-
+/* FREE FILES */
 .landing-files-panel {
   position: relative;
   z-index: 5;
@@ -529,26 +426,24 @@ textarea {
   background: #fcf8cc;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
-
 .landing-files-link:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 0 #000;
 }
 
-
-/* BOTTOM YELLOW BAR */
+/* BOTTOM NAV */
 .landing-nav {
   background: #ffee2a;
   padding: 1.5rem 2rem 2rem;
-  display: grid;                                /* ✅ grid instead of flex */
-  grid-template-columns: repeat(4, 1fr);        /* ✅ 4 even columns on desktop */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   z-index: 3;
 }
 
 .landing-nav-item {
   display: flex;
-  align-items: flex-start;   /* ✅ top-align */
+  align-items: flex-start;
   justify-content: center;
   text-decoration: none;
 }
@@ -557,134 +452,78 @@ textarea {
   transition: filter 0.15s ease;
 }
 
-/* Hover: instantly recolor to #e65a23 */
 .landing-nav-item:hover .landing-nav-img {
   filter: saturate(100) hue-rotate(126deg) saturate(100);
 }
 
-
-
 /* ========= RESPONSIVE ========= */
 
-/* Tablets */
 @media (max-width: 992px) {
-  .landing-header {
-    left: 1rem;
-  }
+  .landing-header { left: 1rem; }
+  .landing-header-logo { width: 150px; }
+  .landing-hero-overlay { padding: 6rem 1.25rem 2.5rem; gap: 1.5rem; }
+  .landing-hero-text-img { max-width: 320px; }
+  .landing-nav { grid-template-columns: repeat(1, 4fr); }
+  .landing-nav-item { font-size: 1.8rem; }
+}
 
-  .landing-header-logo {
-    width: 150px;
-  }
-
-  .landing-hero-overlay {
-    padding: 6rem 1.25rem 2.5rem;
-    gap: 1.5rem;
-  }
-
-  .landing-hero-text-img {
-    max-width: 320px;
-  }
-
-  .landing-nav {
-    grid-template-columns: repeat(1, 4fr);      /* 2 × 2 on tablets */
-  }
-
-  }
-
-  .landing-nav-item {
-    font-size: 1.8rem;
-  }
-
-/* Phones */
 @media (max-width: 640px) {
   .landing-hero-overlay {
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;  /* no longer vertically centered */
-    padding-top: 0.5rem;          /* roughly the home-icon height */
+    justify-content: flex-start;
+    padding-top: 0.5rem;
     padding-bottom: 0rem;
     gap: 2.5rem;
   }
-
-  .landing-hero-side {
-    flex-basis: auto;
+  .landing-hero-side { flex-basis: auto; }
+  .landing-hero-side-left  { margin-top: 0; transform: translateX(40px);  visibility: hidden; }
+  .landing-hero-side-right { margin-bottom: 2rem; transform: translateX(-40px); visibility: hidden; }
+  .landing-hero-text-img { max-width: 75%; }
+  .landing-hero-side::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 200%;
+    height: 130%;
+    background: rgba(255, 145, 0, 0.616);
+    border-radius: 10px;
+    z-index: -5;
   }
-
-  /* Left PNG: near the top */
-  .landing-hero-side-left {
-    margin-top: 0;    
-    transform: translateX(40px);   /* move a bit to the right */
-            visibility: hidden;
-  }
-
-  /* Right PNG: pushed further down */
-  .landing-hero-side-right {
-    margin-bottom: 2rem;
-        transform: translateX(-40px);  /* move a bit to the left */
-        visibility: hidden;
-  }
-
-  .landing-hero-text-img {
-    max-width: 75%;
-  }
-
-  /* 🔶 Orange bar behind each PNG */
-.landing-hero-side::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);   /* center the bar under the image */
-  width: 200%;                         /* how far the bar extends horizontally */
-  height: 130%;                        /* same height as the side/image */
-  background: rgba(255, 145, 0, 0.616); /* #e87a2f at ~50% opacity */
-  border-radius: 10px;                 /* optional: soft corners */
-  z-index: -5;
-}
   .landing-hero-bg {
-    background-size: 260%;     /* Bigger image (cover × 1.8) */
-    background-position: center 0%;  /* Adjust vertical framing */
+    background-size: 260%;
+    background-position: center 0%;
   }
-
-  .landing-nav {
-    flex-wrap: wrap;
-  }
-
   .landing-nav {
     grid-template-columns: repeat(1, 4fr);
     gap: 4rem;
     padding: 1.25rem 1.25rem 1.75rem;
   }
-
   .landing-nav-img {
     max-width: 50%;
     height: auto;
   }
 }
 
-
 @media (max-width: 900px) {
   .landing-shop-split {
     flex-direction: column;
     padding: 4rem 1.5rem 3rem;
   }
-
   .landing-shop-left,
   .landing-shop-right {
     flex: 1 1 auto;
     width: 100%;
   }
-
   .landing-shop-image {
     width: 320px;
     max-width: 90%;
   }
 }
 
-
-/* Keep layout sane just on this page */
 .landing-page,
 .landing-page * {
   box-sizing: border-box;
 }
-
