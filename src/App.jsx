@@ -1,6 +1,7 @@
 import './styles.css';
 import React, { useState, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { news, groups, resources, contact, roadmap } from './community.js';
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -226,49 +227,69 @@ function Landing() {
         {activeSection === 'community' && (
           <div className="landing-community-panel">
             <div className="landing-community-inner justify-between">
+
+              {/* LEFT — Communities */}
               <div className="landing-community-left">
                 <div className="header-text !text-[28px] mb-2">Communities</div><br />
                 <div className="description-text !text-[14px]">
+
                   <strong><u>open player groups</u></strong><br />
-                  <a href="https://www.youtube.com/@GropenGaming" target="_blank" rel="noopener noreferrer">
-                    SWEDEN, STOCKHOLM: GROPEN
-                  </a><br /><br /><br />
+                  {groups.map((g, i) => (
+                    <React.Fragment key={i}>
+                      <a href={g.url} target="_blank" rel="noopener noreferrer">{g.label}</a><br />
+                    </React.Fragment>
+                  ))}
+                  <br /><br />
+
                   <strong><u>Online Sites &amp; Resources</u></strong><br />
-                  <a href="https://boardgamegeek.com/boardgame/459365/sway" target="_blank" rel="noopener noreferrer">
-                    BoardGameGeek
-                  </a><br /><br /><br />
+                  {resources.map((r, i) => (
+                    <React.Fragment key={i}>
+                      <a href={r.url} target="_blank" rel="noopener noreferrer">{r.label}</a><br />
+                    </React.Fragment>
+                  ))}
+                  <br /><br />
+
                   <strong><u>message the creator</u></strong><br />
-                  Tom Waldton<br />
-                  hello@swaygame.info<br /><br />
+                  {contact.name}<br />
+                  {contact.email}<br /><br />
                 </div>
               </div>
 
+              {/* MIDDLE — News */}
               <div className="landing-community-middle">
                 <div className="header-text !text-[28px] mb-2">NEWS</div>
                 <div className="description-text !text-[14px] leading-relaxed">
-                  <strong><u>2025-12-04</u></strong><br />
-                  Started going public 36 hours ago. The site has been viewed ~2000 times since, starting from almost 0 people knowing... it's all mind blowing really.
-                  <br /><br />
-                  <strong><u>2025-11-29</u></strong><br />
-                  I'm stoked to start building this community section, even though the project is still a big secret.
+                  {news.map((post, i) => (
+                    <React.Fragment key={i}>
+                      <strong><u>{post.date}</u></strong><br />
+                      {post.text}
+                      {i < news.length - 1 && <><br /><br /></>}
+                    </React.Fragment>
+                  ))}
                 </div>
               </div>
 
+              {/* RIGHT — Roadmap */}
               <div className="landing-community-right">
                 <div className="header-text !text-[28px] mb-2">ROADMAP</div>
                 <div className="description-text !text-[14px] leading-relaxed">
-                  <strong><u>Website</u></strong><br />
-                  • Team Creator<br />
-                  &nbsp;&nbsp;– fix layout for phones<br /><br />
-                  <strong><u>Releases</u></strong><br />
-                  • DriveThruRPG<br />
-                  &nbsp;&nbsp;– plan to release the physical book for US &amp; UK<br />
-                  • Other store intakes<br /><br />
-                  <strong><u>Future releases</u></strong><br />
-                  • Scenarios &amp; missions<br />
-                  &nbsp;&nbsp;– if all goes well, more campaigns &amp; missions<br />
+                  {roadmap.map((section, i) => (
+                    <React.Fragment key={i}>
+                      <strong><u>{section.title}</u></strong><br />
+                      {section.items.map((item, j) => (
+                        <React.Fragment key={j}>
+                          {item.startsWith('– ')
+                            ? <>&nbsp;&nbsp;{item}<br /></>
+                            : <>• {item}<br /></>
+                          }
+                        </React.Fragment>
+                      ))}
+                      {i < roadmap.length - 1 && <br />}
+                    </React.Fragment>
+                  ))}
                 </div>
               </div>
+
             </div>
           </div>
         )}
