@@ -118,7 +118,57 @@ textarea {
   }
 }
 
-/* ========= LANDING PAGE ========= */
+/* ========= MOBILE RESPONSIVE (phone/tablet) ========= */
+
+@media (max-width: 639px) {
+  /* Character sheet: allow natural height — no fixed 895px crop on mobile */
+  .character-sheet-print {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* Skill description boxes */
+  .desc-box-skill {
+    height: 130px !important;
+    overflow: hidden !important;
+  }
+
+  /* Item description boxes — slightly trimmed */
+  .desc-box-item {
+    height: 62px !important;
+    overflow: hidden !important;
+  }
+
+  /* Accessory description box */
+  .desc-box-accessory {
+    height: 155px !important;
+    overflow: hidden !important;
+  }
+
+  /* Fade-out gradient at the bottom of overflowing desc boxes to signal more text */
+  .desc-box-interactive.cursor-pointer {
+    position: relative;
+  }
+  .desc-box-interactive.cursor-pointer::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.97));
+    pointer-events: none;
+    border-radius: 0 0 4px 4px;
+  }
+
+  /* Tighten left column notes textarea height on phone */
+  .left-column textarea {
+    height: 150px !important;
+  }
+}
+
+
 
 .landing-page {
   min-height: 100vh;

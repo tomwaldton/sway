@@ -343,13 +343,10 @@ function CharacterCreator() {
   const [showScrollTop, setShowScrollTop]       = useState(false);
   const [canScrollLeft, setCanScrollLeft]       = useState(false);
   const [canScrollRight, setCanScrollRight]     = useState(false);
+  const [expandedDesc, setExpandedDesc]         = useState(null);
   const characterScrollRef = useRef(null);
 
   useEffect(() => { document.title = 'SWAY - Team Creator'; }, []);
-
-  useEffect(() => {
-    if (window.innerWidth < 640) setShowPhoneWarning(true);
-  }, []);
 
   // Horizontal scroll arrows
   useEffect(() => {
@@ -502,10 +499,24 @@ function CharacterCreator() {
   const renderCharCard = (char, charIdx) => {
     const modifiers = getModifiersForCharacter(char);
 
+    const DescBox = ({ text, title, desktopHeight, className = '' }) => {
+      const isEmpty = !text?.trim();
+      return (
+        <div
+          className={`description-text mt-1 w-full border rounded p-2 desc-box-interactive ${!isEmpty ? 'cursor-pointer' : ''} ${className}`}
+          style={{ height: desktopHeight, overflow: 'hidden' }}
+          onClick={() => !isEmpty && setExpandedDesc({ title, text })}
+          title={!isEmpty ? 'Tap to expand' : undefined}
+        >
+          {text}
+        </div>
+      );
+    };
+
     return (
       <div
         key={charIdx}
-        className="character-sheet-print relative p-2 w-[94vw] sm:w-[500px] border rounded shadow bg-white flex-shrink-0"
+        className="character-sheet-print relative p-2 w-[calc(100vw-16px)] sm:w-[500px] border rounded shadow bg-white flex-shrink-0"
       >
         {modifiers._DEAD && (
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
@@ -514,7 +525,7 @@ function CharacterCreator() {
         )}
 
         {/* Name + Move */}
-        <div className="flex gap-2 items-end mt-[5px]">
+        <div className="flex gap-2 items-end mt-[2px] sm:mt-[5px]">
           <label className="flex-1 header-text">
             Name:
             <input
@@ -536,11 +547,11 @@ function CharacterCreator() {
         </div>
 
         {/* Stats */}
-        <div className="flex justify-between gap-2 mt-[10px]">
+        <div className="flex justify-between gap-1 mt-[4px] sm:mt-[10px]">
           {Object.keys(char.stats).map((key) => {
             const modifier = modifiers[key] || 0;
             return (
-              <label key={key} className="w-[90px] header-text">
+              <label key={key} className="flex-1 header-text">
                 {key}:
                 <div className="relative">
                   <div className="relative">
@@ -588,7 +599,7 @@ function CharacterCreator() {
         </div>
 
         {/* Skills + Armour */}
-        <div className="flex gap-4 items-start mt-[10px]">
+        <div className="flex gap-4 items-start mt-[4px] sm:mt-[10px]">
           <div className="flex-1">
             <div className="flex gap-2">
               {/* Primary Skill */}
@@ -606,7 +617,10 @@ function CharacterCreator() {
                   <option value="">Select Skill</option>
                   {skills.map(skill => <option key={skill.id} value={skill.id}>{skill.name}</option>)}
                 </select>
-                <div className="description-text mt-1 w-full border rounded p-2" style={{ height: '165px' }}>
+                <div className="description-text mt-1 w-full border rounded p-2 desc-box-interactive desc-box-skill" style={{ height: '165px', overflow: 'hidden' }}
+                  onClick={() => { const d = getSkillDescription(char.primarySkill); d && setExpandedDesc({ title: 'Primary Skill', text: d }); }}
+                  title="Tap to expand"
+                >
                   {getSkillDescription(char.primarySkill)}
                 </div>
               </label>
@@ -626,7 +640,10 @@ function CharacterCreator() {
                   <option value="">Select Skill</option>
                   {skills.map(skill => <option key={skill.id} value={skill.id}>{skill.name}</option>)}
                 </select>
-                <div className="description-text mt-1 w-full border rounded p-2" style={{ height: '165px' }}>
+                <div className="description-text mt-1 w-full border rounded p-2 desc-box-interactive desc-box-skill" style={{ height: '165px', overflow: 'hidden' }}
+                  onClick={() => { const d = getSkillDescription(char.secondarySkill); d && setExpandedDesc({ title: 'Secondary Skill', text: d }); }}
+                  title="Tap to expand"
+                >
                   {getSkillDescription(char.secondarySkill)}
                 </div>
               </label>
@@ -661,7 +678,7 @@ function CharacterCreator() {
         </div>
 
         {/* Weapons */}
-        <div className="flex flex-col gap-0 mt-[10px]">
+        <div className="flex flex-col gap-0 mt-[4px] sm:mt-[10px]">
           {['Right', 'Left'].map((hand) => {
             const weaponKey  = hand === 'Right' ? 'weaponRight'  : 'weaponLeft';
             const upgradeKey = hand === 'Right' ? 'upgradeRight' : 'upgradeLeft';
@@ -688,8 +705,10 @@ function CharacterCreator() {
                     {weapons.map(w => <option key={w.id} value={w.id}>{w.name}</option>)}
                   </select>
                   <div
-                    className="flex-1 input-text border rounded p-2 whitespace-nowrap overflow-hidden text-ellipsis"
+                    className="flex-1 input-text border rounded p-2 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer"
                     style={{ height: '35px' }}
+                    onClick={() => weapon?.description && setExpandedDesc({ title: `${hand} Hand Weapon`, text: weapon.description })}
+                    title="Tap to expand"
                   >
                     {weapon?.description || ''}
                   </div>
@@ -711,14 +730,14 @@ function CharacterCreator() {
         </div>
 
         {/* Items + Accessory */}
-        <div className="flex gap-4 mt-[10px]">
+        <div className="flex gap-4 mt-[4px] sm:mt-[10px]">
           <div className="flex-[1_1_60%]">
             <div className="block header-text mb-0">Items</div>
             {char.items.map((item, itemIdx) => {
               const selectedItem = itemOptions.find(opt => opt.name === item);
               return (
-                <div key={itemIdx} className="flex gap-2 mb-2 items-start">
-                  <div className="flex flex-col w-[140px]">
+                <div key={itemIdx} className="flex gap-2 mb-2 items-start overflow-hidden">
+                  <div className="flex flex-col w-[140px] flex-shrink-0">
                     <select
                       className="border p-2 rounded input-text !text-[10px]"
                       value={item}
@@ -747,7 +766,12 @@ function CharacterCreator() {
                       />
                     </div>
                   </div>
-                  <div className="flex-1 description-text p-2 border rounded" style={{ height: '70px' }}>
+                  <div
+                    className={`flex-1 min-w-0 description-text p-2 border rounded desc-box-interactive desc-box-item ${selectedItem?.description ? 'cursor-pointer' : ''}`}
+                    style={{ height: '70px', overflow: 'hidden', minWidth: 0 }}
+                    onClick={() => selectedItem?.description && setExpandedDesc({ title: `Item: ${item}`, text: selectedItem.description })}
+                    title={selectedItem?.description ? 'Tap to expand' : undefined}
+                  >
                     {selectedItem?.description || ''}
                   </div>
                 </div>
@@ -769,21 +793,29 @@ function CharacterCreator() {
             >
               {accessoryOptions.map(opt => <option key={opt.name} value={opt.name}>{opt.name}</option>)}
             </select>
-            <div className="description-text mt-2 w-full border rounded p-2" style={{ height: '188px' }}>
+            <div
+              className={`description-text mt-2 w-full border rounded p-2 desc-box-interactive desc-box-accessory ${accessoryOptions.find(a => a.name === char.accessory)?.description ? 'cursor-pointer' : ''}`}
+              style={{ height: '188px', overflow: 'hidden' }}
+              onClick={() => {
+                const d = accessoryOptions.find(a => a.name === char.accessory)?.description;
+                d && setExpandedDesc({ title: `Accessory: ${char.accessory}`, text: d });
+              }}
+              title={accessoryOptions.find(a => a.name === char.accessory)?.description ? 'Tap to expand' : undefined}
+            >
               {accessoryOptions.find(a => a.name === char.accessory)?.description || ''}
             </div>
           </div>
         </div>
 
         {/* Injuries + Level + Cost */}
-        <div className="flex gap-4 items-end mt-[10px]">
-          <div className="flex flex-col">
+        <div className="flex gap-2 items-end mt-[1px] sm:mt-[10px]">
+          <div className="flex flex-col flex-shrink-0">
             <label className="block header-text mb-0">Injuries:</label>
-            <div className="flex gap-2">
+            <div className="flex gap-1">
               {char.injuries.map((val, i) => (
                 <select
                   key={i}
-                  className="border p-2 rounded input-text"
+                  className="w-[46px] sm:w-[52px] border p-2 rounded input-text text-center"
                   value={val}
                   onChange={(e) => setCharacters(prev => {
                     const updated = [...prev];
@@ -805,7 +837,7 @@ function CharacterCreator() {
           <div className="flex-[1_1_20%]">
             <label className="block header-text mb-0">Level:</label>
             <select
-              className="w-full text-center border rounded p-2 input-text"
+              className="w-full text-center border rounded p-2 input-text appearance-none"
               value={char.level}
               onChange={(e) => setCharacters(prev => {
                 const updated = [...prev];
@@ -990,6 +1022,30 @@ function CharacterCreator() {
             {characters.map((char, charIdx) => renderCharCard(char, charIdx))}
           </div>
         </div>
+
+        {/* Description Expand Overlay */}
+        {expandedDesc && (
+          <div
+            className="fixed inset-0 z-[9998] flex items-center justify-center"
+            style={{ backdropFilter: 'blur(3px)', backgroundColor: 'rgba(0,0,0,0.35)' }}
+            onClick={() => setExpandedDesc(null)}
+          >
+            <div
+              className="bg-white border-2 border-black rounded-lg p-4 mx-4 max-w-sm w-full shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="header-text !text-[16px] mb-2">{expandedDesc.title}</div>
+              <div className="description-text !text-[11px] leading-relaxed">{expandedDesc.text}</div>
+              <button
+                className="mt-4 w-full bg-black header-text !text-[14px] py-2 rounded"
+                style={{ color: '#ffee2a' }}
+                onClick={() => setExpandedDesc(null)}
+              >
+                CLOSE
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Phone Warning Modal */}
         {showPhoneWarning && (
