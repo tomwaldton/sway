@@ -180,6 +180,14 @@ textarea {
   overflow: hidden;
 }
 
+@media (min-width: 641px) {
+  .landing-page {
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+  }
+}
+
 .landing-header {
   position: absolute;
   top: 1.5rem;
@@ -199,6 +207,13 @@ textarea {
   display: flex;
   align-items: stretch;
   justify-content: center;
+}
+
+@media (min-width: 641px) {
+  .landing-hero {
+    min-height: 0;
+    overflow: hidden;
+  }
 }
 
 .landing-hero-bg {
@@ -424,6 +439,39 @@ textarea {
   flex: 1;
   padding-left: 1.5rem;
   border: none;
+}
+
+@media (min-width: 641px) {
+  .landing-community-left,
+  .landing-community-middle,
+  .landing-community-right {
+    overflow-y: auto;
+    max-height: calc(100vh - 180px);
+  }
+}
+
+/* Minimal black scrollbar for community columns */
+.landing-community-left,
+.landing-community-middle,
+.landing-community-right {
+  scrollbar-width: thin;
+  scrollbar-color: #000 transparent;
+}
+.landing-community-left::-webkit-scrollbar,
+.landing-community-middle::-webkit-scrollbar,
+.landing-community-right::-webkit-scrollbar {
+  width: 3px;
+}
+.landing-community-left::-webkit-scrollbar-track,
+.landing-community-middle::-webkit-scrollbar-track,
+.landing-community-right::-webkit-scrollbar-track {
+  background: transparent;
+}
+.landing-community-left::-webkit-scrollbar-thumb,
+.landing-community-middle::-webkit-scrollbar-thumb,
+.landing-community-right::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 2px;
 }
 
 @media (max-width: 640px) {

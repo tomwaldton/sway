@@ -1,15 +1,21 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  SWAY – Community Content
-//  Edit this file to update the Community page. No React knowledge needed.
+
+//  SWAY - - - - - Community Content
 //  Dates: use "YYYY-MM-DD" format for consistent sorting.
-// ─────────────────────────────────────────────────────────────────────────────
 
 
-// ── NEWS ─────────────────────────────────────────────────────────────────────
+// NEWS 
 //  Add new posts at the TOP of this list (newest first).
 //  Each post needs: date, title (optional), and text.
 
 export const news = [
+  {
+    date: "2025-03-10",
+    text: "Character Creator got some major improvements. Perfect print function, and nicely adaptive phone layout.",
+  },  
+  {
+    date: "2025-03-01",
+    text: "Omnix is now a distributor of SWAY. That is fantastic news! your local store may get the book from them, at a much better shipping price.",
+  },    
   {
     date: "2025-12-04",
     text: "Started going public 36 hours ago. The site has been viewed ~2000 times since, starting from almost 0 people knowing... it's all mind blowing really.",
@@ -21,7 +27,7 @@ export const news = [
 ];
 
 
-// ── COMMUNITIES ───────────────────────────────────────────────────────────────
+// COMMUNITIES 
 //  Groups are shown under "open player groups".
 //  Resources are shown under "Online Sites & Resources".
 
@@ -39,24 +45,16 @@ export const contact = {
 };
 
 
-// ── ROADMAP ───────────────────────────────────────────────────────────────────
+// ROADMAP 
 //  Each section has a title and a list of items.
 //  Sub-items start with "– " (en-dash + space) and will be indented.
 
 export const roadmap = [
   {
-    title: "Website",
-    items: [
-      "Team Creator",
-      "– fix layout for phones",
-    ],
-  },
-  {
     title: "Releases",
     items: [
       "DriveThruRPG",
       "– plan to release the physical book for US & UK",
-      "Other store intakes",
     ],
   },
   {
