@@ -136,7 +136,7 @@ function Landing() {
   }, [activeSection]);
 
   const heroStyles = {
-    home:      { backgroundImage: 'url("/landing-book-bg-3.png")' },
+    home:      { backgroundImage: 'url("/landing-book-bg-3-lines.png")' },
     shop:      { backgroundColor: '#ffee2a', backgroundImage: 'none' },
     community: { backgroundColor: '#ffee2a', backgroundImage: 'none' },
     files:     { backgroundColor: '#ffee2a', backgroundImage: 'none' },
@@ -210,11 +210,17 @@ function Landing() {
                   • Three mini-campaigns: Fantasy, Thriller, Sci-Fi
                 </p>
                 <p className="header-text !text-[20px]">
-                  Rulebook Pdf 100% free! - available under free files.<br /><br />
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick('files')}
+                    style={{ color: '#e8432b', textDecoration: 'underline', background: 'none', border: 'none', padding: 0, cursor: 'pointer', font: 'inherit' }}
+                  >
+                    RULEBOOK PDF 100% FREE! - AVAILABLE UNDER FREE FILES.
+                  </button><br /><br />
                   <div className="header-text !text-[17px]">
-                    PRINTED IN SWEDEN! - LOCATED IN US OR UK?<br />
-                    WANT TO SAVE SHIPPING? - BOOK COMING SOON ON: &nbsp;
-                    <a href="https://www.drivethrurpg.com" target="_blank" rel="noopener noreferrer">
+                    HARDCOVER EU VERSION: PRINTED IN SWEDEN! <br />
+                    LOCATED IN US OR UK? ORDER BOOK FROM : &nbsp;
+                    <a href="https://www.drivethrurpg.com/en/product/547807/sway-rulebook" target="_blank" rel="noopener noreferrer">
                       <span className="!text-[#e8432b]">DRIVETHRURPG</span>
                     </a>
                   </div>
@@ -233,7 +239,7 @@ function Landing() {
                 <div className="header-text !text-[28px] mb-2">Communities</div><br />
                 <div className="description-text !text-[14px]">
 
-                  <strong><u>open player groups</u></strong><br />
+                  <strong><u>Selected Stores</u></strong><br />
                   {groups.map((g, i) => (
                     <React.Fragment key={i}>
                       <a href={g.url} target="_blank" rel="noopener noreferrer">{g.label}</a><br />
@@ -241,7 +247,7 @@ function Landing() {
                   ))}
                   <br /><br />
 
-                  <strong><u>Online Sites &amp; Resources</u></strong><br />
+                  <strong><u>Community Sites </u></strong><br />
                   {resources.map((r, i) => (
                     <React.Fragment key={i}>
                       <a href={r.url} target="_blank" rel="noopener noreferrer">{r.label}</a><br />
@@ -251,7 +257,7 @@ function Landing() {
 
                   <strong><u>message the creator</u></strong><br />
                   {contact.name}<br />
-                  {contact.email}<br /><br />
+                  <a href={`mailto:${contact.email}`} style={{ color: '#ffffff', backgroundColor: '#e87a2f' }}>{contact.email}</a><br /><br />
                 </div>
               </div>
 
@@ -297,7 +303,7 @@ function Landing() {
         {activeSection === 'files' && (
           <div className="landing-shop-overlay landing-files-panel">
             <div className="landing-files-inner">
-              <div className="header-text !text-[32px] mb-4">Free files</div>
+              <div className="header-text !text-[40px] mb-4">ALL THE THINGS!</div>
               <div className="landing-files-list">
                 <a className="landing-files-link" href="https://files.swaygame.info/rulebook/SWAY%20-%20RULEBOOK%201.0.0%20v2.pdf" target="_blank" rel="noopener noreferrer">
                   <div className="header-text !text-[22px]">SWAY - RULEBOOK PDF</div>

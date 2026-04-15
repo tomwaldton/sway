@@ -8,6 +8,10 @@
 //  Each post needs: date, title (optional), and text.
 
 export const news = [
+    {
+    date: "2025-04-15",
+    text: "US/UK drivethru now available since last week! Also had a Late-release Party At Alphaspel in Stockholm. Other stores in Sweden now also has the book in stock! So much cool stuff!",
+  }, 
   {
     date: "2025-03-10",
     text: "Character Creator got some major improvements. Perfect print function, and nicely adaptive phone layout.",
@@ -28,11 +32,13 @@ export const news = [
 
 
 // COMMUNITIES 
-//  Groups are shown under "open player groups".
-//  Resources are shown under "Online Sites & Resources".
+//  Groups are shown under "stores".
+//  Resources are shown under "Online Sites".
 
 export const groups = [
-  { label: "SWEDEN, STOCKHOLM: GROPEN", url: "https://www.youtube.com/@GropenGaming" },
+  { label: "Alphaspel", url: "https://alphaspel.se/1146-ovriga-figurspelsregler/343233-sway-rulebook" },
+  { label: "SCIENCE FICTION BOKHANDELN", url: "https://www.sfbok.se/produkt/sway-745062" },
+  { label: "GAMEMANIACS", url: "http://gamemaniacs.se/product/sway-agonistic-miniature-skirmish-game" },
 ];
 
 export const resources = [
@@ -51,17 +57,19 @@ export const contact = {
 
 export const roadmap = [
   {
-    title: "Releases",
+    title: "Near Future",
     items: [
-      "DriveThruRPG",
-      "– plan to release the physical book for US & UK",
+      "Video tutorials",
+      "– Make a walkthrough video of Sway basics",
+      "– Make a playthrough video of Sway gameplay",
+      "Meet the players",
     ],
   },
   {
-    title: "Future releases",
+    title: "Distant Future",
     items: [
-      "Scenarios & missions",
-      "– if all goes well, more campaigns & missions",
+      "Campaigns & Scenarios",
+      "– Additional themed campaigns & scenarios. ",
     ],
   },
 ];
