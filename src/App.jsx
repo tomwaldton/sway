@@ -411,21 +411,23 @@ function CharacterCreator() {
   const [teamNotes,   setTeamNotes]   = useState('');
   const [characters,  setCharacters]  = useState(
     Array.from({ length: 4 }, () => ({
-      name:          '',
-      stats:         { ...initialStats },
-      primarySkill:  '',
-      secondarySkill:'',
-      notes:         '',
-      armourType:    'none',
-      weaponLeft:    '',
-      weaponRight:   '',
-      upgradeLeft:   'None',
-      upgradeRight:  'None',
-      items:         ['', '', ''],
-      usedItems:     [false, false, false],
-      accessory:     '',
-      injuries:      ['', '', '', '', ''],
-      level:         0,
+      name:           '',
+      stats:          { ...initialStats },
+      primarySkill:   '',
+      secondarySkill: '',
+      notes:          '',
+      armourType:     'none',
+      weaponLeft:     '',
+      weaponRight:    '',
+      upgradeLeft:    'None',
+      upgradeRight:   'None',
+      items:          ['', '', ''],
+      usedItems:      [false, false, false],
+      accessory:      '',
+      injuries:       ['', '', '', '', ''],
+      level:          0,
+      statsConfirmed: false,
+      statsEditing:   false,
     }))
   );
 
@@ -506,7 +508,40 @@ function CharacterCreator() {
 
   // ── Shared card renderer (interactive + print both use this) ───────────────
   const renderCharCard = (char, charIdx) => {
-    const modifiers = getModifiersForCharacter(char);
+    const modifiers     = getModifiersForCharacter(char);
+    const isInitMode    = !char.statsConfirmed;
+    const isEditingStats = char.statsConfirmed && !!char.statsEditing;
+    const showStatControls = isInitMode || isEditingStats;
+    const statTotal     = Object.values(char.stats).reduce((s, v) => s + v, 0);
+    const canConfirm    = statTotal === 0;
+
+    const confirmStats = () => {
+      setCharacters(prev => {
+        const updated = [...prev];
+        updated[charIdx] = { ...updated[charIdx], statsConfirmed: true, statsEditing: false };
+        return updated;
+      });
+    };
+
+    const enterEditStats = () => {
+      setCharacters(prev => {
+        const updated = [...prev];
+        updated[charIdx] = { ...updated[charIdx], statsEditing: true };
+        return updated;
+      });
+    };
+
+    const exitEditStats = () => {
+      setCharacters(prev => {
+        const updated = [...prev];
+        updated[charIdx] = { ...updated[charIdx], statsEditing: false };
+        return updated;
+      });
+    };
+
+    const blurStyle = showStatControls
+      ? { opacity: 0.15, filter: 'blur(2px)', pointerEvents: 'none', userSelect: 'none' }
+      : {};
 
     const DescBox = ({ text, title, desktopHeight, className = '' }) => {
       const isEmpty = !text?.trim();
@@ -527,14 +562,14 @@ function CharacterCreator() {
         key={charIdx}
         className="character-sheet-print relative p-2 w-[calc(100vw-16px)] sm:w-[500px] border rounded shadow bg-white flex-shrink-0"
       >
-        {modifiers._DEAD && (
+        {modifiers._DEAD && !showStatControls && (
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
             <div className="text-6xl text-red-600 font-extrabold drop-shadow-lg">DEAD</div>
           </div>
         )}
 
         {/* Name + Move */}
-        <div className="flex gap-2 items-end mt-[2px] sm:mt-[5px]">
+        <div className="flex gap-2 items-end mt-[2px] sm:mt-[5px]" style={blurStyle}>
           <label className="flex-1 header-text">
             Name:
             <input
@@ -558,57 +593,119 @@ function CharacterCreator() {
         {/* Stats */}
         <div className="flex justify-between gap-1 mt-[4px] sm:mt-[10px]">
           {Object.keys(char.stats).map((key) => {
-            const modifier = modifiers[key] || 0;
+            const modifier = isInitMode ? 0 : (modifiers[key] || 0);
+            const limit    = isInitMode ? 5 : 10;
             return (
               <label key={key} className="flex-1 header-text">
                 {key}:
                 <div className="relative">
-                  <div className="relative">
-                    <div
-                      className="block w-full border p-2 rounded text-center font-mono bg-white"
-                      style={{ pointerEvents: 'none' }}
-                    >
-                      <div className="text-sm input-text">
-                        {char.stats[key]}
-                        {modifier !== 0 && (
-                          <span className={`ml-1 ${modifier > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {modifier > 0 ? `+${modifier}` : modifier}
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-3xl font-bold leading-tight">
-                        {char.stats[key] + modifier}
-                      </div>
+                  {/* Visual display */}
+                  <div
+                    className="block w-full border p-2 rounded text-center font-mono bg-white"
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    <div className="text-sm input-text">
+                      {char.stats[key]}
+                      {!isInitMode && modifier !== 0 && (
+                        <span className={`ml-1 ${modifier > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {modifier > 0 ? `+${modifier}` : modifier}
+                        </span>
+                      )}
                     </div>
-                    <input
-                      type="number"
-                      className="absolute inset-0 w-full h-full text-transparent caret-transparent bg-transparent border-none"
-                      value={char.stats[key]}
-                      onChange={(e) => setCharacters(prev => {
+                    <div className="text-3xl font-bold leading-tight">
+                      {isInitMode ? char.stats[key] : char.stats[key] + modifier}
+                    </div>
+                  </div>
+                  {/* Desktop: invisible overlay number input (spinner arrows) */}
+                  <input
+                    type="number"
+                    className="stat-spin-input hidden sm:block absolute inset-0 w-full h-full text-transparent caret-transparent bg-transparent border-none"
+                    value={char.stats[key]}
+                    onChange={(e) => setCharacters(prev => {
+                      const updated = [...prev];
+                      const val = parseInt(e.target.value, 10);
+                      updated[charIdx] = {
+                        ...updated[charIdx],
+                        stats: { ...updated[charIdx].stats, [key]: isNaN(val) ? 0 : Math.max(-limit, Math.min(limit, val)) },
+                      };
+                      return updated;
+                    })}
+                    min={-limit}
+                    max={limit}
+                    style={{ WebkitAppearance: 'number-input', MozAppearance: 'number-input', appearance: 'number-input' }}
+                  />
+                  {/* Mobile tap-to-edit overlay — only when confirmed and not already editing */}
+                  {char.statsConfirmed && !char.statsEditing && (
+                    <div
+                      className="sm:hidden absolute inset-0 cursor-pointer"
+                      onClick={enterEditStats}
+                    />
+                  )}
+                </div>
+                {/* Mobile: − / + buttons — only visible when in init or edit mode */}
+                {showStatControls && (
+                  <div className="flex sm:hidden gap-[2px] mt-[2px]">
+                    <button
+                      type="button"
+                      className="flex-1 border rounded header-text !text-[16px] py-[2px] bg-black"
+                      style={{ color: '#ffee2a' }}
+                      onClick={() => setCharacters(prev => {
                         const updated = [...prev];
-                        const val = parseInt(e.target.value, 10);
-                        updated[charIdx] = {
-                          ...updated[charIdx],
-                          stats: {
-                            ...updated[charIdx].stats,
-                            [key]: isNaN(val) ? 0 : Math.max(-10, Math.min(10, val)),
-                          },
-                        };
+                        const cur = updated[charIdx].stats[key];
+                        updated[charIdx] = { ...updated[charIdx], stats: { ...updated[charIdx].stats, [key]: Math.max(-limit, cur - 1) } };
                         return updated;
                       })}
-                      min="-10"
-                      max="10"
-                      style={{ WebkitAppearance: 'number-input', MozAppearance: 'number-input', appearance: 'number-input' }}
-                    />
+                    >−</button>
+                    <button
+                      type="button"
+                      className="flex-1 border rounded header-text !text-[16px] py-[2px] bg-black"
+                      style={{ color: '#ffee2a' }}
+                      onClick={() => setCharacters(prev => {
+                        const updated = [...prev];
+                        const cur = updated[charIdx].stats[key];
+                        updated[charIdx] = { ...updated[charIdx], stats: { ...updated[charIdx].stats, [key]: Math.min(limit, cur + 1) } };
+                        return updated;
+                      })}
+                    >+</button>
                   </div>
-                </div>
+                )}
               </label>
             );
           })}
         </div>
 
+        {/* ── Stats control panel (init mode = full check, edit mode = just OK) ── */}
+        {showStatControls && (
+          <div className="bg-white border-2 border-black rounded-lg p-4 mt-3 shadow-xl">
+            {isInitMode && (
+              <div className="header-text !text-[13px] text-center leading-snug mb-3">
+                THE TOTAL OF ALL STATS TOGETHER MUST BE 0.<br />
+                CURRENT TOTAL IS{' '}
+                <span className={canConfirm ? 'text-green-600' : 'text-red-600'}>
+                  {statTotal > 0 ? `+${statTotal}` : statTotal}
+                </span>
+              </div>
+            )}
+            <button
+              onClick={isInitMode ? (canConfirm ? confirmStats : undefined) : exitEditStats}
+              className="w-full header-text !text-[14px] py-2 rounded"
+              style={{
+                backgroundColor: (isInitMode && !canConfirm) ? '#9ca3af' : '#000000',
+                color:           (isInitMode && !canConfirm) ? '#6b7280'  : '#ffee2a',
+                cursor:          (isInitMode && !canConfirm) ? 'not-allowed' : 'pointer',
+                textDecoration:  (isInitMode && !canConfirm) ? 'line-through' : 'none',
+              }}
+            >
+              OK
+            </button>
+          </div>
+        )}
+
+        {/* All sections below stats — hidden on mobile during init mode */}
+        <div className={showStatControls ? 'init-mode-rest' : ''}>
+
         {/* Skills + Armour */}
-        <div className="flex gap-4 items-start mt-[4px] sm:mt-[10px]">
+        <div className="flex gap-4 items-start mt-[4px] sm:mt-[10px]" style={blurStyle}>
           <div className="flex-1">
             <div className="flex gap-2">
               {/* Primary Skill */}
@@ -687,7 +784,7 @@ function CharacterCreator() {
         </div>
 
         {/* Weapons */}
-        <div className="flex flex-col gap-0 mt-[4px] sm:mt-[10px]">
+        <div className="flex flex-col gap-0 mt-[4px] sm:mt-[10px]" style={blurStyle}>
           {['Right', 'Left'].map((hand) => {
             const weaponKey  = hand === 'Right' ? 'weaponRight'  : 'weaponLeft';
             const upgradeKey = hand === 'Right' ? 'upgradeRight' : 'upgradeLeft';
@@ -739,7 +836,7 @@ function CharacterCreator() {
         </div>
 
         {/* Items + Accessory */}
-        <div className="flex gap-4 mt-[4px] sm:mt-[10px]">
+        <div className="flex gap-4 mt-[4px] sm:mt-[10px]" style={blurStyle}>
           <div className="flex-[1_1_60%]">
             <div className="block header-text mb-0">Items</div>
             {char.items.map((item, itemIdx) => {
@@ -817,7 +914,7 @@ function CharacterCreator() {
         </div>
 
         {/* Injuries + Level + Cost */}
-        <div className="flex gap-2 items-end mt-[1px] sm:mt-[10px]">
+        <div className="flex gap-2 items-end mt-[1px] sm:mt-[10px]" style={blurStyle}>
           <div className="flex flex-col flex-shrink-0">
             <label className="block header-text mb-0">Injuries:</label>
             <div className="flex gap-1">
@@ -867,6 +964,7 @@ function CharacterCreator() {
             </div>
           </div>
         </div>
+        </div>{/* end init-mode-rest wrapper */}
       </div>
     );
   };
@@ -981,7 +1079,7 @@ function CharacterCreator() {
                       setTeamName(data.teamName);
                       setTeamCredits(data.teamCredits);
                       setTeamNotes(data.teamNotes || '');
-                      setCharacters(data.characters);
+                      setCharacters(data.characters.map(c => ({ ...c, statsConfirmed: true, statsEditing: false })));
                     } else {
                       alert('Invalid team file');
                     }

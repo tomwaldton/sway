@@ -624,3 +624,24 @@ textarea {
 .landing-page * {
   box-sizing: border-box;
 }
+
+/* ── Init mode: hide lower sections on mobile so no empty space ── */
+@media (max-width: 639px) {
+  .init-mode-rest {
+    display: none !important;
+  }
+}
+
+/* ── Stat spinners: keep arrows visible on desktop ── */
+.stat-spin-input::-webkit-outer-spin-button,
+.stat-spin-input::-webkit-inner-spin-button {
+  opacity: 1;
+  -webkit-appearance: inner-spin-button;
+}
+
+/* ── White background on selects inside character sheet — mobile only ── */
+@media (max-width: 639px) {
+  .character-sheet-print select {
+    background-color: #ffffff !important;
+  }
+}
