@@ -21,9 +21,9 @@ const skills = [
   { id: 4,  name: '4.Thug',         description: "Swelling biceps but can't count or tie your shoelaces. +4 strength and -4 intelligence.",                                                                                                                                                                                                                                                         modifiers: { STR: 4, INT:-4, DED:  0, CHA:  0, AGI:  0 } },
   { id: 5,  name: '5.Vampire',      description: 'Each time this model kills, get +2 on all stats. After third kill, model goes frenzy. In Frenzy it must always move, or run, and fight the closest model in melee. Resets at the end of the scenario.',                                                                                                                                           modifiers: { STR: 0, INT: 0, DED:  0, CHA:  0, AGI:  0 } },
   { id: 6,  name: '6.Translucent',  description: 'Other models get -4 to hit this model on ranged attacks. Also, this model always succeeds to hide. But due to trouble communicating, -8 charm.',                                                                                                                                                                                                  modifiers: { STR: 0, INT: 0, DED:  0, CHA: -8, AGI:  0 } },
-  { id: 7,  name: '7.Leather face', description: 'Lack of sunscreen has made this model\u2019s face impenetrable. Cannot do a flirt action, but gain +1 armour.',                                                                                                                                                                                                                                  modifiers: { STR: 0, INT: 0, DED:  0, CHA:  0, AGI:  0 } },
+  { id: 7,  name: '7.Leather face', description: 'Lack of sunscreen has made this model2019s face impenetrable. Cannot do a flirt action, but gain +1 armour.',                                                                                                                                                                                                                                  modifiers: { STR: 0, INT: 0, DED:  0, CHA:  0, AGI:  0, ARMOUR: 1 } },
   { id: 8,  name: '8.Scissor hands',description: 'This model\u2019s None/improvised attacks cannot be modified by opponents\u2019 armour and power becomes 0 instead of normal penalty. But cannot equip or carry any weapon.',                                                                                                                                                                     modifiers: { STR: 0, INT: 0, DED:  0, CHA:  0, AGI:  0 } },
-  { id: 9,  name: '9.Swindler',     description: 'Player always gains double the money after scenario. But all money can only be spent on this model, and nothing can ever be traded. +2 charm and +2 intelligence.',                                                                                                                                                                               modifiers: { STR: 0, INT: 4, DED:  0, CHA:  4, AGI:  0 } },
+  { id: 9,  name: '9.Swindler',     description: 'Player always gains double the money after scenario. But all money can only be spent on this model, and nothing can ever be traded. +2 charm and +2 intelligence.',                                                                                                                                                                               modifiers: { STR: 0, INT: 2, DED:  0, CHA:  2, AGI:  0 } },
   { id: 10, name: '10.Clumsy',      description: 'When this skill is gained, roll immediately on the injury table. +4 charm.',                                                                                                                                                                                                                                                                      modifiers: { STR: 0, INT: 0, DED:  0, CHA:  4, AGI:  0 } },
   { id: 11, name: '11.Brainwashed', description: 'This model has seen the light. Immune to convince action, -4 intelligence and +4 dedication.',                                                                                                                                                                                                                                                    modifiers: { STR: 0, INT:-4, DED:  4, CHA:  0, AGI:  0 } },
   { id: 12, name: '12.Bookworm',    description: 'In theory, this model has seen many battles. +4 intelligence, but -2 to agility and -2 strength.',                                                                                                                                                                                                                                               modifiers: { STR:-2, INT: 4, DED:  0, CHA:  0, AGI: -2 } },
@@ -53,7 +53,7 @@ const upgradeOptions = ['None', 'Fire', 'Lightning', 'Poison'];
 
 const accessoryOptions = [
   { name: 'None',              description: '',                                                                                                                                                                                                     modifiers: { STR:  0, INT:  0, DED:  0, CHA:  0, AGI:  0 } },
-  { name: 'Book of belief',    description: 'If killed, roll a d20. on a 20: This tiny book was miraculously placed where the hit struck. The book is destroyed permanently, but the model is saved.',                                             modifiers: { STR:  0, INT:  0, DED:  0, CHA:  4, AGI:  0 } },
+  { name: 'Book of belief',    description: 'If killed, roll a d20. on a 20: This tiny book was miraculously placed where the hit struck. The book is destroyed permanently, but the model is saved.',                                             modifiers: { STR:  0, INT:  0, DED:  0, CHA:  0, AGI:  0 } },
   { name: 'Nice hat',          description: 'Dashing and stylish, +4 charm. Lost permanently if leaping, falling or pushed.',                                                                                                                      modifiers: { STR:  0, INT:  0, DED:  0, CHA:  4, AGI:  0 } },
   { name: 'Ergonomic chair',   description: 'Ugly but comfortable +4 intelligence, -4 agility and -4 charm. Cannot double move.',                                                                                                                  modifiers: { STR:  0, INT: +4, DED:  0, CHA: -4, AGI: -4 } },
   { name: 'Glass eye',         description: 'Can detect hidden figures. But in return get bad depth perception and -4 to hit on all shoot and fight rolls.',                                                                                       modifiers: { STR:  0, INT:  0, DED:  0, CHA:  0, AGI:  0 } },
@@ -467,7 +467,8 @@ function CharacterCreator() {
       else if (val >= 2  && val <= 5)  injuryMod.AGI -= 1;
       else if (val >= 6  && val <= 9)  injuryMod.STR -= 1;
       else if (val >= 10 && val <= 13) injuryMod.INT -= 1;
-      else if (val >= 14 && val <= 17) injuryMod.DED -= 1;
+      else if (val >= 14 && val <= 16) injuryMod.DED -= 1;
+      else if (val === 17)             injuryMod.CHA -= 1;
       else if (val >= 18 && val <= 19) injuryMod.CHA -= 1;
       else if (val === 20)             injuryMod.CHA += 1;
     });
@@ -488,7 +489,9 @@ function CharacterCreator() {
       return acc;
     }, isDead ? { _DEAD: true } : {});
 
-    result.ARMOUR = itemMods.reduce((sum, mod) => sum + (mod.ARMOUR || 0), 0);
+    result.ARMOUR = itemMods.reduce((sum, mod) => sum + (mod.ARMOUR || 0), 0)
+                 + (primary.ARMOUR   || 0)
+                 + (secondary.ARMOUR || 0);
     return result;
   };
 
