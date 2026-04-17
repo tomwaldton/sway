@@ -10,7 +10,7 @@
 export const news = [
   {
     date: "2025-04-18",
-    text: "Some major improvements to the team creator",
+    text: "Some major improvements to the team creator. Check it out!",
   }, 
   {
     date: "2025-04-15",
