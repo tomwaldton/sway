@@ -8,7 +8,11 @@
 //  Each post needs: date, title (optional), and text.
 
 export const news = [
-    {
+  {
+    date: "2025-04-18",
+    text: "Some major improvments to the team creator",
+  }, 
+  {
     date: "2025-04-15",
     text: "US/UK drivethru now available since last week! Also had a Late-release Party At Alphaspel in Stockholm. Other stores in Sweden now also has the book in stock! So much cool stuff!",
   }, 
